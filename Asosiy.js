@@ -373,7 +373,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         const dd = String(localDate.getDate()).padStart(2, '0');
                         const datePart = ann?.lunch_date || `${yyyy}-${mm}-${dd}`;
                         if (ann && isTimeExpired(ann.end_time, datePart)) {
-                            window.supabaseClient.from('lunch_requests').update({ status: 'completed' }).eq('id', req.id).then(() => {});
+                            // lunch_requests has no 'completed' status in its check constraint
+                            // (only pending/accepted/rejected/cancelled) — leave it 'accepted' and
+                            // only close out the announcement, which does support 'completed'.
                             window.supabaseClient.from('lunch_announcements').update({ status: 'completed' }).eq('id', ann.id).then(() => {});
                         } else { validRequest = req; break; }
                     }
@@ -443,7 +445,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const dd = String(localDate.getDate()).padStart(2, '0');
                     const datePart = ann.lunch_date || `${yyyy}-${mm}-${dd}`;
                     if (isTimeExpired(ann.end_time, datePart)) {
-                        window.supabaseClient.from('lunch_announcements').update({ status: 'expired' }).eq('id', ann.id).then(() => {});
+                        // lunch_announcements has no 'expired' status — the closest valid value is
+                        // 'cancelled' (nobody joined it and its time window has now passed).
+                        window.supabaseClient.from('lunch_announcements').update({ status: 'cancelled' }).eq('id', ann.id).then(() => {});
                     } else { validAnnouncements.push(ann); }
                 }
 

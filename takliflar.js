@@ -230,11 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dd = String(localDate.getDate()).padStart(2, '0');
                     const datePart = ann?.lunch_date || `${yyyy}-${mm}-${dd}`;
                     if (ann && isTimeExpired(ann.end_time, datePart)) {
-                        supabaseClient
-                            .from('lunch_requests')
-                            .update({ status: 'completed' })
-                            .eq('id', req.id)
-                            .then(() => {});
+                        // Note: lunch_requests has no 'completed' status in its check constraint
+                        // (only pending/accepted/rejected/cancelled) — it stays 'accepted' as a
+                        // historical record; only the announcement closes out.
                         if (ann.id) {
                             supabaseClient
                                 .from('lunch_announcements')
@@ -307,9 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dd = String(localDate.getDate()).padStart(2, '0');
                     const datePart = ann?.lunch_date || `${yyyy}-${mm}-${dd}`;
                     if (ann && isTimeExpired(ann.end_time, datePart)) {
+                        // lunch_requests has no 'expired' status — the closest valid value is
+                        // 'cancelled' (it can no longer be acted on once the window has passed).
                         supabaseClient
                             .from('lunch_requests')
-                            .update({ status: 'expired' })
+                            .update({ status: 'cancelled' })
                             .eq('id', req.id)
                             .then(() => {});
                     } else {

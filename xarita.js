@@ -959,9 +959,11 @@ class BirgalikdaSystemController {
                     const datePart = ann.lunch_date || `${yyyy}-${mm}-${dd}`;
                     const isExpired = this.isTimeExpired(ann.end_time, datePart);
                     if (isExpired) {
+                        // lunch_announcements has no 'expired' status — the closest valid value is
+                        // 'cancelled' (nobody joined it and its time window has now passed).
                         supabaseClient
                             .from('lunch_announcements')
-                            .update({ status: 'expired' })
+                            .update({ status: 'cancelled' })
                             .eq('id', ann.id)
                             .then(() => {});
                     }
