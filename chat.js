@@ -300,17 +300,37 @@ document.addEventListener("DOMContentLoaded", () => {
             ) : null;
 
             if (!convo) {
+                // conversations has a unique constraint on the exact (user1_id, user2_id) order,
+                // so both sides must always insert the same canonical order or duplicate rooms
+                // can be created when both users open chat at nearly the same time.
+                const [orderedUser1, orderedUser2] = [myId, partnerId].sort();
                 const { data: newConvo, error: createErr } = await supabaseClient
                     .from('conversations')
                     .insert({
                         request_id: partner.requestId && !partner.requestId.startsWith("mock") ? partner.requestId : null,
-                        user1_id: myId,
-                        user2_id: partnerId
+                        user1_id: orderedUser1,
+                        user2_id: orderedUser2
                     })
                     .select('id, user1_id, user2_id')
                     .single();
+
                 if (!createErr && newConvo) {
                     convo = newConvo;
+                } else if (createErr?.code === '23505') {
+                    // Lost the race to a concurrent insert from the other user — fetch the room they just created
+                    const { data: existingConvo, error: refetchErr } = await supabaseClient
+                        .from('conversations')
+                        .select('id, user1_id, user2_id')
+                        .eq('user1_id', orderedUser1)
+                        .eq('user2_id', orderedUser2)
+                        .single();
+                    if (!refetchErr && existingConvo) {
+                        convo = existingConvo;
+                    } else {
+                        console.error("Conversation refetch after race error:", refetchErr);
+                        showToast("Suhbat xonasini yuklab bo'lmadi.", "error");
+                        return;
+                    }
                 } else {
                     console.error("Conversation creation error:", createErr);
                     showToast("Suhbat xonasini yaratib bo'lmadi: " + (createErr?.message || "noma'lum xatolik"), "error");
@@ -357,11 +377,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 return;
                             } else if (now > endDateTime) {
                                 if (convoDetails.lunch_requests.status === 'accepted') {
-                                    supabaseClient
-                                        .from('lunch_requests')
-                                        .update({ status: 'completed' })
-                                        .eq('id', convoDetails.lunch_requests.id)
-                                        .then(() => {});
+                                    // Note: lunch_requests has no 'completed' status in its check
+                                    // constraint (only pending/accepted/rejected/cancelled) — it stays
+                                    // 'accepted' as a historical record; only the announcement closes out.
                                     if (ann.id) {
                                         supabaseClient
                                             .from('lunch_announcements')
