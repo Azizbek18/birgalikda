@@ -290,6 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (convoErr) {
                 console.error("Conversation fetch error:", convoErr);
+                showToast("Suhbatni yuklashda xatolik: " + convoErr.message, "error");
                 return;
             }
 
@@ -312,6 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     convo = newConvo;
                 } else {
                     console.error("Conversation creation error:", createErr);
+                    showToast("Suhbat xonasini yaratib bo'lmadi: " + (createErr?.message || "noma'lum xatolik"), "error");
                     return;
                 }
             }
@@ -372,8 +374,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 return;
                             }
                             
-                            // Set custom end time for the countdown timer
-                            window.customMeetingEndTime = endDateTime.getTime();
+                            // Sync the countdown timer with the real scheduled end time
+                            startMeetingTimer(endDateTime.getTime());
                         }
                     }
                 } catch (err) {
@@ -397,6 +399,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         const time = new Date(msg.created_at).toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
                         appendLocalMessage(msg.message_text, side, time, msg.id);
                     });
+                } else if (msgsErr) {
+                    console.error("Messages fetch error:", msgsErr);
+                    showToast("Xabarlarni yuklashda xatolik: " + msgsErr.message, "error");
                 }
 
                 // 3. Subscribe to Real-Time Updates (Listening to all inserts and filtering client-side for max reliability)
@@ -421,6 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (e) {
             console.error("Supabase messaging load error:", e);
+            showToast("Chatni yuklashda kutilmagan xatolik yuz berdi.", "error");
         }
     }
 
@@ -690,18 +696,31 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== Ortga hisob taymeri (Countdown) va Footer Notice Sync with Persistence =====
     const timerDisplay = document.getElementById('timer-display');
     const footerNotice = document.querySelector('.footer-notice');
-    if (timerDisplay) {
-        const STORAGE_KEY = `meeting_end_time_${partner.id}`;
-        let endTime = localStorage.getItem(STORAGE_KEY);
+    let timerInterval = null;
 
-        if (!endTime) {
-            // Set end time to 1 hour, 24 minutes, 30 seconds from now
-            const durationMs = (1 * 3600 + 24 * 60 + 30) * 1000;
-            endTime = Date.now() + durationMs;
+    function startMeetingTimer(customEndTime = null) {
+        if (!timerDisplay) return;
+
+        const STORAGE_KEY = `meeting_end_time_${partner.id}`;
+        let endTime;
+
+        if (customEndTime) {
+            // Real end time confirmed from the DB (lunch_announcements) — always takes precedence
+            endTime = customEndTime;
             localStorage.setItem(STORAGE_KEY, endTime);
         } else {
-            endTime = parseInt(endTime);
+            endTime = localStorage.getItem(STORAGE_KEY);
+            if (!endTime) {
+                // Fallback while the real meeting time hasn't loaded yet
+                const durationMs = (1 * 3600 + 24 * 60 + 30) * 1000;
+                endTime = Date.now() + durationMs;
+                localStorage.setItem(STORAGE_KEY, endTime);
+            } else {
+                endTime = parseInt(endTime);
+            }
         }
+
+        if (timerInterval) clearInterval(timerInterval);
 
         const updateTimer = () => {
             const now = Date.now();
@@ -732,8 +751,10 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         updateTimer();
-        const timerInterval = setInterval(updateTimer, 1000);
+        timerInterval = setInterval(updateTimer, 1000);
     }
+
+    startMeetingTimer();
 
     // cancel / finish meeting
     const cancelBtn = document.getElementById("cancel-meeting-btn");
@@ -756,12 +777,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== BLOCKED CHAT SCREENS RENDERERS =====
     function showChatNotAvailableYet(startDateTime) {
+        if (timerInterval) clearInterval(timerInterval);
+        const headerTimer = document.getElementById('meeting-timer');
+        if (headerTimer) headerTimer.style.display = 'none';
+
         const timeStr = startDateTime.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
         const dateStr = startDateTime.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long' });
-        
+
         const chatMessages = document.getElementById("chatMessages");
         const chatFooter = document.querySelector(".chat-footer");
-        
+
         if (chatMessages) {
             chatMessages.innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px; font-family:'Inter',sans-serif; color:var(--text-dark);">
@@ -783,9 +808,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function showChatClosed() {
+        if (timerInterval) clearInterval(timerInterval);
+        const headerTimer = document.getElementById('meeting-timer');
+        if (headerTimer) headerTimer.style.display = 'none';
+
         const chatMessages = document.getElementById("chatMessages");
         const chatFooter = document.querySelector(".chat-footer");
-        
+
         if (chatMessages) {
             chatMessages.innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center; padding:40px; font-family:'Inter',sans-serif; color:var(--text-dark);">
