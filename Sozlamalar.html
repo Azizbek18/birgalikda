@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <script src="theme-detector.js"></script>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sozlamalar - Birgalikda</title>
+    <link rel="stylesheet" href="theme.css?v=1.4">
+    <link rel="stylesheet" href="Asosiy.css?v=1.4">
+    <link rel="stylesheet" href="Sozlamalar.css?v=2.0">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="shortcut icon" href="images/Lunch%20Match%20Icon.avif" type="image/x-icon">
+    <link rel="stylesheet" href="responsive.css?v=1.4">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="mobile-300.css?v=1.0">
+</head>
+
+<body>
+    <!-- Mobil menyu tugmasi -->
+    <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="Menyu">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <!-- Mobil menyu overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Chap panelli menyu -->
+    <aside class="side-navigation" id="sideNavigation">
+        <div class="side-logo">
+            <span class="side-logo-icon">🍽️</span>
+            <span class="side-logo-text">Birgalikda</span>
+        </div>
+        <nav>
+            <a class="birinchisi" href="Asosiy.html">
+                <div class="container">
+                    <img src="images/Icon.svg" alt="">
+                </div>
+                <div class="container-2">Asosiy</div>
+            </a>
+            <a class="ikkinchisi" href="xarita.html">
+                <div class="container">
+                    <img src="images/Icon (1).svg" alt="">
+                </div>
+                <div class="container-2">Xarita</div>
+            </a>
+            <a class="uchinchisi" href="Asosiy.html#leaders-list">
+                <div class="container">
+                    <img src="images/Icon (2).svg" alt="">
+                </div>
+                <div class="container-2">Reyting</div>
+            </a>
+            <a class="beshinchisi" href="statistika.html">
+                <div class="container">
+                    <img src="images/Icon (4).svg" alt="">
+                </div>
+                <div class="container-2">Statistika</div>
+            </a>
+            <a class="oltinchisi is-active" href="Sozlamalar.html">
+                <div class="container">
+                    <img src="images/Icon (5).svg" alt="">
+                </div>
+                <div class="container-2">Sozlamalar</div>
+            </a>
+            <a class="yettinchisi" href="takliflar.html">
+                <div class="container">
+                    <img src="images/Icon (6).svg" alt="Takliflar">
+                </div>
+                <div class="container-2">Takliflar</div>
+            </a>
+        </nav>
+        <div class="margin-announce-box">
+            <button type="button" class="btn-announce ripple" id="btn-announce-lunch">
+                <i class="fa-solid fa-plus"></i>
+                <span>E'lon qo'shish</span>
+            </button>
+        </div>
+        <div class="container-0">
+            <a href="Yordam.html">
+                <div class="container">
+                    <img src="images/Icon (7).svg" alt="">
+                </div>
+                <div class="container-2">Yordam</div>
+            </a>
+            <a href="kirish.html" id="logout-link">
+                <div class="container">
+                    <img src="images/Icon (8).svg" alt="">
+                </div>
+                <div class="container-2">Chiqish</div>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content settings-content">
+        <!-- Sarlavha va profil xulosasi -->
+        <header class="settings-header">
+            <div class="header-info">
+                <h1>Sozlamalar <span class="header-icon">⚙️</span></h1>
+                <p>Profilingiz va ilova parametrlarini ushbu paneldan boshqaring.</p>
+            </div>
+            <div class="header-user-preview" id="header-user-preview">
+                <div class="user-avatar-small" id="header-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="user-meta">
+                    <span class="user-name" id="header-name">Foydalanuvchi</span>
+                    <span class="user-status"><span class="status-dot"></span> Faol</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tezkor amallar paneli -->
+        <div class="quick-actions-bar">
+            <a href="profileS.html" class="quick-action-chip">
+                <i class="fa-solid fa-id-card"></i>
+                <span>Profil</span>
+            </a>
+            <a href="Bildirishnomalar.html" class="quick-action-chip">
+                <i class="fa-solid fa-bell"></i>
+                <span>Bildirishnomalar</span>
+            </a>
+            <a href="Maxfiylik.html" class="quick-action-chip">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Maxfiylik</span>
+            </a>
+            <a href="Premuim.html" class="quick-action-chip premium-chip">
+                <i class="fa-solid fa-crown"></i>
+                <span>Premium</span>
+            </a>
+        </div>
+
+        <div class="settings-grid">
+            <!-- ====== CHAP USTUN ====== -->
+            <div class="settings-column">
+                <!-- Shaxsiy ma'lumotlar kartasi -->
+                <section class="settings-card profile-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-user-pen"></i></span> Shaxsiy ma'lumotlar</h3>
+                        <span class="card-badge">Asosiy</span>
+                    </div>
+
+                    <!-- Avatar yuklash qismi -->
+                    <div class="avatar-section">
+                        <div class="avatar-wrapper">
+                            <div class="avatar-circle" id="avatar-preview">
+                                <i class="fa-solid fa-user avatar-fallback"></i>
+                            </div>
+                            <button type="button" class="avatar-edit-btn" id="avatar-edit-btn" title="Rasmni o'zgartirish">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <input type="file" id="avatar-input" accept="image/*" hidden>
+                        </div>
+                        <div class="avatar-info">
+                            <h4 id="display-name">Ism Familiya</h4>
+                            <p id="display-company">Kompaniya yoki soha</p>
+                            <button type="button" class="link-btn" id="avatar-remove-btn">
+                                <i class="fa-solid fa-trash-can"></i> Rasmni o'chirish
+                            </button>
+                        </div>
+                    </div>
+
+                    <form id="profile-settings-form">
+                        <div class="form-group">
+                            <label for="set-name">To'liq ism (Name)</label>
+                            <input type="text" id="set-name" placeholder="Ismingizni kiriting" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="set-company">Soha / Kompaniya</label>
+                            <input type="text" id="set-company" placeholder="Masalan: Senior Designer @ Payme">
+                        </div>
+                        <div class="form-group">
+                            <label for="set-bio">O'zingiz haqingizda (Bio)</label>
+                            <textarea id="set-bio" rows="4" placeholder="Qiziqishlaringiz haqida qisqacha..."></textarea>
+                            <span class="char-counter"><span id="bio-count">0</span> / 240</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="set-interests">Asosiy Qiziqishlar (Vergul bilan ajrating)</label>
+                            <input type="text" id="set-interests" placeholder="IT, Dizayn, Kofe, Stol tennisi">
+                            <div class="interests-preview" id="interests-preview"></div>
+                        </div>
+                        <button type="submit" class="save-btn" id="save-profile-btn">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>Saqlash</span>
+                        </button>
+                        <div class="extra-links-row">
+                            <a href="profileS.html" class="extra-link">
+                                <i class="fa-solid fa-id-card"></i>
+                                <span>Profil sahifasi</span>
+                            </a>
+                            <a href="Bildirishnomalar.html" class="extra-link">
+                                <i class="fa-solid fa-bell"></i>
+                                <span>Bildirishnomalar</span>
+                            </a>
+                            <a href="Maxfiylik.html" class="extra-link">
+                                <i class="fa-solid fa-shield-halved"></i>
+                                <span>Maxfiylik</span>
+                            </a>
+                            <a href="Premuim.html" class="extra-link premium-link">
+                                <i class="fa-solid fa-crown"></i>
+                                <span>Premium</span>
+                            </a>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Tushlik afzalliklari kartasi -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-utensils"></i></span> Tushlik afzalliklari</h3>
+                        <span class="card-badge badge-blue">Match</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lunch-time">Tushlik boshlanish vaqti</label>
+                        <input type="time" id="lunch-time" value="12:30">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lunch-duration">Tushlik davomiyligi</label>
+                        <select id="lunch-duration">
+                            <option value="30">30 daqiqa</option>
+                            <option value="45">45 daqiqa</option>
+                            <option value="60" selected>1 soat</option>
+                            <option value="90">1 soat 30 daqiqa</option>
+                            <option value="120">2 soat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max-distance">
+                            Maksimal masofa: <span class="value-tag" id="distance-value">2 km</span>
+                        </label>
+                        <input type="range" id="max-distance" min="0.5" max="10" step="0.5" value="2" class="range-slider">
+                        <div class="range-labels">
+                            <span>0.5 km</span>
+                            <span>10 km</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred-cuisine">Afzallik beriladigan oshxona</label>
+                        <select id="preferred-cuisine">
+                            <option value="any">Har qanday</option>
+                            <option value="uzbek">O'zbek</option>
+                            <option value="italian">Italiyan</option>
+                            <option value="asian">Osiyo</option>
+                            <option value="fast">Tez ovqat</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="cafe">Kafé / Kofe</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="save-btn save-btn-secondary" id="save-lunch-prefs-btn">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Tushlik sozlamalarini saqlash</span>
+                    </button>
+                </section>
+            </div>
+
+            <!-- ====== O'NG USTUN ====== -->
+            <div class="settings-column">
+                <!-- Ilova sozlamalari (mavjud) -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-sliders"></i></span> Ilova sozlamalari</h3>
+                        <span class="card-badge badge-blue">Tizim</span>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Bildirishnomalar</h4>
+                            <p>Yangi tushlik matchlari va takliflar xabari</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-notifications" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Ovozli bildirishnoma</h4>
+                            <p>Yangi xabarlar ovozli signal</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-sound">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Email orqali xabar</h4>
+                            <p>Haftalik hisobot va yangiliklar</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-email" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Tezkor match rejimi</h4>
+                            <p>Avtomatik match qabul qilish</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-quick-match">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- Ko'rinish (Tema) kartasi -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-palette"></i></span> Ko'rinish</h3>
+                        <span class="card-badge badge-purple">Dizayn</span>
+                    </div>
+                    <div class="theme-selector">
+                        <button type="button" class="theme-option active" data-theme="light">
+                            <div class="theme-preview theme-light-preview">
+                                <div class="tp-bar"></div>
+                                <div class="tp-bar short"></div>
+                                <div class="tp-bar"></div>
+                            </div>
+                            <span><i class="fa-solid fa-sun"></i> Yorug'</span>
+                        </button>
+                        <button type="button" class="theme-option" data-theme="dark">
+                            <div class="theme-preview theme-dark-preview">
+                                <div class="tp-bar"></div>
+                                <div class="tp-bar short"></div>
+                                <div class="tp-bar"></div>
+                            </div>
+                            <span><i class="fa-solid fa-moon"></i> Qorong'i</span>
+                        </button>
+                        <button type="button" class="theme-option" data-theme="auto">
+                            <div class="theme-preview theme-auto-preview">
+                                <div class="tp-bar"></div>
+                                <div class="tp-bar short"></div>
+                                <div class="tp-bar"></div>
+                            </div>
+                            <span><i class="fa-solid fa-circle-half-stroke"></i> Auto</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Maxfiylik kartasi -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-shield-halved"></i></span> Maxfiylik</h3>
+                        <span class="card-badge badge-green">Himoya</span>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Profil ko'rinishi</h4>
+                            <p>Boshqa foydalanuvchilarga profilni ko'rsatish</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-profile-visible" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Online holat</h4>
+                            <p>Boshqalarga online ekanligingizni ko'rsatish</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-online-status" checked>
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="invite-permission">Kim meni tushlikka taklif qilishi mumkin?</label>
+                        <select id="invite-permission">
+                            <option value="everyone" selected>Hamma</option>
+                            <option value="matches">Faqat matchlar</option>
+                            <option value="friends">Faqat do'stlar</option>
+                            <option value="nobody">Hech kim</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Xavfsizlik kartasi -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-lock"></i></span> Xavfsizlik</h3>
+                        <span class="card-badge badge-red">Muhim</span>
+                    </div>
+
+                    <div class="security-action" id="change-password-block">
+                        <div class="toggle-text">
+                            <h4>Parolni o'zgartirish</h4>
+                            <p>Hisobingiz xavfsizligi uchun parolni muntazam yangilang</p>
+                        </div>
+                        <button type="button" class="action-btn" id="change-password-btn">
+                            <i class="fa-solid fa-key"></i>
+                        </button>
+                    </div>
+
+                    <!-- Parol o'zgartirish formasi (yashirin) -->
+                    <div class="password-form hidden" id="password-form">
+                        <div class="form-group">
+                            <label for="current-password">Joriy parol</label>
+                            <input type="password" id="current-password" placeholder="••••••••">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">Yangi parol</label>
+                            <input type="password" id="new-password" placeholder="••••••••">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Yangi parolni tasdiqlang</label>
+                            <input type="password" id="confirm-password" placeholder="••••••••">
+                        </div>
+                        <div class="password-actions">
+                            <button type="button" class="btn-cancel" id="cancel-password-btn">Bekor qilish</button>
+                            <button type="button" class="save-btn" id="submit-password-btn">
+                                <i class="fa-solid fa-check"></i> Saqlash
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="toggle-group">
+                        <div class="toggle-text">
+                            <h4>Ikk bosqichli autentifikatsiya (2FA)</h4>
+                            <p>Qo'shimcha xavfsizlik qatlami</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle-2fa">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div class="security-action">
+                        <div class="toggle-text">
+                            <h4>Faol seanslar</h4>
+                            <p>Hozirda 2 qurilmada tizimga kirilgan</p>
+                        </div>
+                        <button type="button" class="action-btn" id="manage-sessions-btn">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Til va mintaqa kartasi -->
+                <section class="settings-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-globe"></i></span> Til va mintaqa</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-language">Ilova tili</label>
+                        <select id="app-language">
+                            <option value="uz" selected>O'zbekcha</option>
+                            <option value="ru">Русский</option>
+                            <option value="en">English</option>
+                            <option value="kaa">Qoraqalpoqcha</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-timezone">Vaqt mintaqasi</label>
+                        <select id="app-timezone">
+                            <option value="tashkent" selected>Toshkent (UTC+5)</option>
+                            <option value="samarkand">Samarqand (UTC+5)</option>
+                            <option value="utc">UTC</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Ilova haqida kartasi -->
+                <section class="settings-card about-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-circle-info"></i></span> Ilova haqida</h3>
+                    </div>
+                    <div class="about-grid">
+                        <div class="about-item">
+                            <span class="about-label">Versiya</span>
+                            <span class="about-value">v2.4.1</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="about-label">Oxirgi yangilanish</span>
+                            <span class="about-value">2026-07-01</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="about-label">Foydalanuvchilar</span>
+                            <span class="about-value">12 480+</span>
+                        </div>
+                        <div class="about-item">
+                            <span class="about-label">Litsenziya</span>
+                            <span class="about-value">Birgalikda Pro</span>
+                        </div>
+                    </div>
+
+                    <div class="about-actions">
+                        <a href="Yordam.html" class="about-link">
+                            <i class="fa-solid fa-life-ring"></i>
+                            <span>Yordam markazi</span>
+                            <i class="fa-solid fa-chevron-right chev"></i>
+                        </a>
+                        <a href="mailto:support@Birgalikda.uz" class="about-link">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span>Biz bilan bog'lanish</span>
+                            <i class="fa-solid fa-chevron-right chev"></i>
+                        </a>
+                        <a href="#" class="about-link" id="rate-app-link">
+                            <i class="fa-solid fa-star"></i>
+                            <span>Ilovani baholash</span>
+                            <i class="fa-solid fa-chevron-right chev"></i>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Xavfli zona -->
+                <section class="settings-card danger-card">
+                    <div class="card-header-row">
+                        <h3><span class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></span> Hisob boshqaruvi</h3>
+                    </div>
+                    <p class="danger-text">Quyidagi amallar qaytarib bo'lmaydi. Ehtiyot bo'ling.</p>
+                    <button type="button" class="danger-btn" id="delete-account-btn">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Hisobni o'chirish</span>
+                    </button>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast xabarnoma -->
+    <div id="toast-message" class="toast-hidden">Ma'lumotlar saqlandi!</div>
+
+    <!-- Hisobni o'chirish modali -->
+    <div class="modal-overlay hidden" id="delete-modal">
+        <div class="modal-content">
+            <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3>Hisobni o'chirish</h3>
+            <p>Siz rostdan ham hisobingizni o'chirmoqchimisiz? Barcha ma'lumotlaringiz, jumladan matchlar va tarix butunlay o'chiriladi va bu amalni qaytarib bo'lmaydi.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" id="cancel-delete-btn">Bekor qilish</button>
+                <button type="button" class="danger-btn" id="confirm-delete-btn">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Ha, o'chirish</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kulgili rejim tugmasi -->
+    <button id="kuchikBtn" class="kuchik-btn" title="Jinni rejimni yoqish/o'chirish">🤫</button>
+
+    <script>
+        // Kuchik tugmasi bosilganda "crazy-mode" klassini yoqish/o'chirish
+        document.getElementById('kuchikBtn').addEventListener('click', function () {
+            document.body.classList.toggle('crazy-mode');
+            if (document.body.classList.contains('crazy-mode')) {
+                this.style.transform = 'scale(1.2) rotate(360deg)';
+                this.innerHTML = '🤪';
+            } else {
+                this.style.transform = 'scale(1) rotate(0deg)';
+                this.innerHTML = '😂';
+            }
+        });
+
+        // Mobil menyu ochish/yopish
+        const mobileToggle = document.getElementById('mobile-menu-toggle');
+        const sideNav = document.getElementById('sideNavigation');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        function toggleSidebar() {
+            sideNav.classList.toggle('open');
+            sidebarOverlay.classList.toggle('show');
+        }
+        if (mobileToggle) mobileToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+    </script>
+
+    <script src="./Sozlamalar.js?v=2.0"></script>
+    <script src="sidebar.js?v=1.4"></script>
+</body>
+
+</html>

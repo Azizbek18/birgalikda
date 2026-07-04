@@ -1,0 +1,1364 @@
+@import url("mobile-300.css");
+/* ==========================================================================
+   1. UMUMIY STILLAR VA O'ZGARUVCHILAR (RESET & VARIABLES)
+   ========================================================================== */
+html {
+    scroll-behavior: smooth;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Calibri', 'Segoe UI', sans-serif;
+}
+
+:root {
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --secondary: #0EA5E9;
+    --success: #0BB46A;
+    --orange: #F97316;
+    --orange-light: #FFEDE2;
+    --gold: #F59E0B;
+    
+    --text-dark: #1F2937;
+    --text-main: #374151;
+    --text-gray: #6B7280;
+    --text-muted: #9CA3AF;
+    
+    --bg-light: #F8FAFC;
+    --bg-dark: #0F172A;
+    --bg-card-dark: #1E293B;
+    --border-color: #E2E8F0;
+    --card-border-dark: #334155;
+    
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 30px;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 50px -12px rgba(0, 0, 0, 0.12);
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. YORDAMCHI ELEMENTLAR (BUTTONS & BADGES)
+   ========================================================================== */
+.btn {
+    padding: 12px 26px;
+    border-radius: var(--radius-lg);
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn--primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn--primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn--secondary {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.btn--secondary:hover {
+    background-color: #F1F5F9;
+    transform: translateY(-2px);
+}
+
+.btn--link {
+    background: none;
+    color: var(--text-dark);
+}
+
+.btn--link:hover {
+    color: var(--primary);
+}
+
+.btn--full {
+    width: 100%;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--border-color);
+    color: var(--text-dark);
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-filled {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-filled:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline-dark {
+    background: transparent;
+    border: 2px solid var(--text-dark);
+    color: var(--text-dark);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--text-dark);
+    color: white;
+}
+
+.badge {
+    background-color: #EEF2FF;
+    color: var(--primary);
+    padding: 6px 16px;
+    border-radius: var(--radius-lg);
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 20px;
+    border: 1px solid #GXE0FF; /* Soft tint border */
+}
+
+/* ==========================================================================
+   3. HEADER BO'LIMI
+   ========================================================================== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 80px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav {
+    display: flex;
+    gap: 32px;
+}
+
+.nav__link {
+    text-decoration: none;
+    color: var(--text-gray);
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+    padding: 8px 0;
+}
+
+.nav__link:hover {
+    color: var(--text-dark);
+}
+
+.nav__link--active {
+    color: var(--primary);
+    font-weight: 600;
+    position: relative;
+}
+
+.nav__link--active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+    border-radius: 2px;
+}
+
+.header__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* ==========================================================================
+   4. HERO BO'LIMI (ASOSIY EKRAN)
+   ========================================================================== */
+.hero {
+    padding-bottom: 80px;
+}
+
+.hero__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 40px;
+    gap: 60px;
+}
+
+.hero__content {
+    flex: 1;
+    max-width: 580px;
+}
+
+.hero__title {
+    font-size: 54px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--text-dark);
+    margin-bottom: 24px;
+    letter-spacing: -1.5px;
+}
+
+.hero__title span {
+    color: var(--primary);
+    position: relative;
+    z-index: 1;
+}
+
+.hero__title span::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background-color: #DBEAFE;
+    z-index: -1;
+}
+
+.hero__desc {
+    font-size: 18px;
+    color: var(--text-gray);
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+.hero__buttons {
+    display: flex;
+    gap: 16px;
+}
+
+/* PHONE MOCKUP & CARDS */
+.hero__preview {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.phone-mockup {
+    width: 320px;
+    height: 560px;
+    background: #F8FAFC;
+    border: 12px solid #0F172A;
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+}
+
+.phone-mockup__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 16px 12px;
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.menu-burger {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.phone-mockup__logo {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.avatar-small {
+    width: 28px;
+    height: 28px;
+    background-color: var(--border-color);
+    border-radius: 50%;
+    background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop');
+    background-size: cover;
+}
+
+.phone-mockup__body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.cafe-card {
+    background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+
+.cafe-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.user-card {
+    background: white;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.user-card__avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-image: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop');
+    background-size: cover;
+}
+
+.user-card__info h4 {
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.user-card__info p {
+    font-size: 12px;
+    color: var(--text-gray);
+}
+
+/* FLOAT CARDS (POPUP ANIMATIONS EFFECT) */
+.toast-card {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 3;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.toast-card__icon {
+    width: 28px;
+    height: 28px;
+    background-color: #DCFCE7;
+    color: var(--success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.toast-card__info h4 {
+    font-size: 14px;
+    color: var(--text-dark);
+}
+
+.toast-card__info p {
+    font-size: 12px;
+    color: var(--text-gray);
+}
+
+.users-badge {
+    position: absolute;
+    bottom: 40px;
+    right: 0;
+    background: white;
+    padding: 14px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 3;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.users-badge p {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-gray);
+    margin-bottom: 6px;
+}
+
+.avatar-group {
+    display: flex;
+    align-items: center;
+}
+
+.avatar-group__item {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+    background-size: cover;
+}
+
+.avatar-group__item:first-child {
+    margin-left: 0;
+    background-image: url('https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop');
+}
+.avatar-group__item:nth-child(2) {
+    background-image: url('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop');
+}
+.avatar-group__item:nth-child(3) {
+    background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=100&auto=format&fit=crop');
+}
+
+.avatar-group__count {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #F1F5F9;
+    border: 2px solid white;
+    margin-left: -8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   5. STATS BO'LIMI (STATISTIKA)
+   ========================================================================== */
+.stats-section {
+    background-color: var(--bg-dark);
+    color: #ffffff;
+    padding: 60px 40px;
+}
+
+.stats-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.stat-item {
+    text-align: center;
+    flex: 1;
+    min-width: 220px;
+}
+
+.stat-item h2 {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: white;
+    background: linear-gradient(to right, #ffffff, #94A3B8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-item p {
+    font-size: 15px;
+    color: #94A3B8;
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   6. HOW IT WORKS BO'LIMI (QANDAY ISHLAYDI)
+   ========================================================================== */
+.how-it-works-section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.section-header p {
+    font-size: 18px;
+    color: var(--text-gray);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 40px;
+}
+
+.step-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.icon-box {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 24px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.icon-blue { background-color: #E0F2FE; color: #0369A1; }
+.icon-orange { background-color: #FFEDE2; color: #EA580C; }
+.icon-green { background-color: #E6F4EA; color: #059669; }
+.icon-light-orange { background-color: #FFF7ED; color: #F97316; }
+
+.step-card h3 {
+    font-size: 20px;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.step-card p {
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   7. LIVE MAP BO'LIMI (JONLI XARITA)
+   ========================================================================== */
+.main-container {
+    display: flex;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 60px;
+    padding: 80px 40px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text-content {
+    flex: 1;
+    max-width: 520px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.icon-location { background-color: #E6F4EA; }
+.icon-notification { background-color: #EFF6FF; }
+
+.feature-text h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.feature-text p {
+    font-size: 15px;
+    color: var(--text-gray);
+}
+
+/* MAP GRAPHIC CARD */
+.map-card {
+    flex: 1;
+    min-width: 450px;
+    max-width: 600px;
+    height: 420px; 
+    background-color: #E2E8F0;
+    background-image: radial-gradient(#CBD5E1 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.map-point {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.point-blue {
+    background-color: var(--primary);
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.2), 0 0 20px rgba(37, 99, 235, 0.6);
+}
+.point-green {
+    background-color: var(--success);
+    box-shadow: 0 0 0 6px rgba(11, 180, 106, 0.2), 0 0 20px rgba(11, 180, 106, 0.6);
+}
+.map-point:hover {
+    transform: scale(1.3);
+}
+
+/* MAP USER CARD */
+.user-profile-card {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: white;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1;
+    margin-left: 14px;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.user-details {
+    font-size: 13px;
+    color: var(--text-gray);
+}
+
+.katta-btn {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tel-btn, .send-message-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.tel-btn { background-color: #0EA5E9; }
+.tel-btn:hover { background-color: #0284C7; transform: scale(1.05); }
+
+.send-message-btn { background-color: var(--primary); }
+.send-message-btn:hover { background-color: var(--primary-hover); transform: scale(1.05); }
+
+/* ==========================================================================
+   8. AI SECTION (AQLLI NETWORKING)
+   ========================================================================== */
+.orta {
+    text-align: center;
+    padding: 80px 40px 40px;
+}
+.orta .ai {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+.orta p:not(.ai) {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.ota {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 40px;
+    flex-wrap: wrap;
+}
+
+.quti {
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: var(--radius-md);
+    flex: 1;
+    min-width: 300px;
+    max-width: 380px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+}
+.quti:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+    border-color: #CBD5E1;
+}
+
+.quti-img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+}
+.quti-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.quti-text h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+.quti-text p {
+    font-size: 14px;
+    color: var(--text-gray);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   9. GAMIFICATION & LEADERBOARD BO'LIMI (DARK THEME)
+   ========================================================================== */
+.sec {
+    background-color: var(--bg-dark);
+    padding: 100px 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.sec .container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.sec .stats-section {
+    background: transparent;
+    padding: 0;
+    flex: 1;
+    min-width: 320px;
+    max-width: 500px;
+}
+
+.sec .section-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.sec .section-desc {
+    color: #94A3B8;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+}
+
+.sec .stat-card {
+    background-color: var(--bg-card-dark);
+    border: 1px solid var(--card-border-dark);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sec .card-value {
+    font-size: 24px;
+    font-weight: 800;
+}
+.sec .highlight-orange { color: var(--orange); }
+.sec .highlight-blue { color: var(--secondary); }
+.sec .card-label { color: #94A3B8; font-size: 14px; }
+
+.badges-wrapper {
+    display: flex;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.sec .badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 0;
+}
+.badge-gold { background-color: rgba(245, 158, 11, 0.15); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-blue { background-color: rgba(14, 165, 233, 0.15); color: #0EA5E9; border: 1px solid rgba(14, 165, 233, 0.3); }
+.badge-green { background-color: rgba(11, 180, 106, 0.15); color: #0BB46A; border: 1px solid rgba(11, 180, 106, 0.3); }
+
+/* LEADERBOARD CARD */
+.leaderboard-card {
+    flex: 1.2;
+    min-width: 380px;
+    max-width: 540px;
+    background: #1E293B;
+    border: 1px solid var(--card-border-dark);
+    border-radius: 24px;
+    padding: 36px;
+    box-shadow: var(--shadow-lg);
+    color: white;
+}
+
+.leaderboard-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--card-border-dark);
+    padding-bottom: 16px;
+}
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+}
+.leaderboard-item:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.rank-number {
+    font-size: 16px;
+    font-weight: 800;
+    width: 24px;
+    text-align: center;
+}
+.rank-1 { color: #F59E0B; }
+.rank-2 { color: #E2E8F0; }
+.rank-3 { color: #94A3B8; }
+
+.user-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-img-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--card-border-dark);
+}
+
+.user-meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.sec .user-name { font-size: 15px; font-weight: 600; color: white; }
+.user-role { font-size: 13px; color: #94A3B8; }
+.user-points { font-size: 15px; font-weight: 700; }
+.text-green { color: var(--success); }
+
+/* ==========================================================================
+   10. PRICING BO'LIMI (TARIFLAR)
+   ========================================================================== */
+.pricing {
+    padding: 100px 40px;
+    background-color: white;
+}
+
+.pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.pricing-header .main-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 15px;
+    font-weight: 600;
+}
+.toggle-label.active { color: var(--text-dark); }
+.toggle-label.text-light { color: var(--text-muted); }
+
+/* TOGGLE SWITCH STILI */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--primary);
+    transition: .3s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px; bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* PRICING GRID & CARDS */
+.pricing-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.price-card {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 40px 30px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+}
+.price-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.price-card.popular {
+    border: 2.5px solid var(--primary);
+    box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.15);
+}
+
+.badge-popular {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: var(--radius-lg);
+    letter-spacing: 0.5px;
+}
+
+.card-header {
+    margin-bottom: 24px;
+}
+.plan-name { font-size: 22px; font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+.plan-desc { font-size: 14px; color: var(--text-gray); }
+
+.card-price {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: baseline;
+}
+.card-price .amount { font-size: 36px; font-weight: 800; color: var(--text-dark); letter-spacing: -1px; }
+.card-price .amount.text-large { font-size: 28px; }
+.card-price .period { font-size: 15px; color: var(--text-gray); margin-left: 4px; }
+
+.pricing .features-list {
+    margin-bottom: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.pricing .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+}
+.pricing .feature-item.checked { color: var(--text-main); }
+.pricing .feature-item.disabled { color: var(--text-muted); text-decoration: line-through; }
+.pricing .feature-item .icon { font-weight: bold; }
+.pricing .feature-item.checked .icon { color: var(--success); }
+.pricing .feature-item.disabled .icon { color: var(--text-muted); }
+
+.price-card .btn {
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   11. ACCORDION BO'LIMI (FAQ)
+   ========================================================================== */
+.akkardion {
+    padding: 100px 40px;
+    background-color: var(--bg-light);
+}
+
+.faq-container {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.faq-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: -1px;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.faq-question {
+    width: 100%;
+    padding: 22px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.faq-question:hover { color: var(--primary); }
+
+.faq-arrow {
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid var(--text-dark);
+    border-bottom: 2px solid var(--text-dark);
+    transform: rotate(45deg);
+    transition: transform 0.3s;
+    margin-right: 4px;
+}
+
+.faq-answer {
+    padding: 0 28px 22px;
+    color: var(--text-gray);
+    font-size: 15px;
+    line-height: 1.6;
+    display: none;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-item.active .faq-arrow {
+    transform: rotate(-135deg);
+}
+
+/* ==========================================================================
+   12. BANNER BO'LIMI (CTA YUKLAB OLISH)
+   ========================================================================== */
+.banner {
+    padding: 80px 40px;
+    background-color: white;
+}
+
+.banner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #2563EB 100%);
+    border-radius: 32px;
+    padding: 60px 40px;
+    text-align: center;
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.banner-title {
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.banner-subtitle {
+    font-size: 18px;
+    color: #E0F2FE;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.store-button {
+    text-decoration: none;
+}
+
+.ikkala {
+    background-color: #0F172A;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px 28px;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+.ikkala:hover {
+    background-color: #020617;
+    transform: translateY(-2px);
+}
+.ikkala img {
+    width: 22px;
+    height: 22px;
+}
+
+/* ==========================================================================
+   13. FOOTER BO'LIMI
+   ========================================================================== */
+.footer {
+    background-color: #0F172A;
+    color: #94A3B8;
+    padding: 80px 40px 40px;
+    border-top: 1px solid #1E293B;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 60px;
+}
+
+.footer-brand .logo {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.footer-brand .description {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 320px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #1E293B;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.icon-btn:hover { background-color: var(--primary); }
+
+.footer-links h3 {
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.footer-links ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.footer-links ul a {
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+.footer-links ul a:hover { color: white; }
+
+.footer-copyright {
+    grid-column: 1 / -1;
+    border-top: 1px solid #1E293B;
+    padding-top: 30px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   14. RESPONSIVE DESIGN (MOBIL MOSLASHUVCHANLIK)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .header { padding: 20px 40px; }
+    .hero__container, .main-container { flex-direction: column; text-align: center; padding: 60px 40px; }
+    .hero__content, .text-content { max-width: 100%; }
+    .hero__title { font-size: 42px; }
+    .hero__buttons { justify-content: center; }
+    .sec .container { flex-direction: column; gap: 40px; }
+    .footer-container { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+
+@media (max-width: 640px) {
+    .nav { display: none; } /* Mobil menyu burger ishlashi uchun */
+    .header__actions .btn--link { display: none; }
+    .hero__title { font-size: 34px; }
+    .map-card { min-width: 100%; height: 360px; }
+    .user-profile-card { flex-direction: column; gap: 14px; }
+    .user-info { margin-left: 0; text-align: center; align-items: center; }
+    .footer-container { grid-template-columns: 1fr; }
+}

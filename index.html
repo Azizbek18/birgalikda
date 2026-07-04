@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birgalikda - Hamkorlikda tushlik qiling</title>
+    <!-- Google Fonts va CSS ulanishi -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="mobile-300.css?v=1.0">
+</head>
+
+<body>
+
+    <!-- 1. HEADER BO'LIMI -->
+    <header class="header">
+        <div class="logo" style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:22px;">🍽️</span>
+            <span style="font-size:18px; font-weight:800; background:linear-gradient(135deg, #0077b6, #005A87); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-0.4px;">Birgalikda</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav__link nav__link--active">Asosiy</a>
+            <a href="#tariflar" class="nav__link">Tariflar</a>
+            <a href="#faq" class="nav__link">FAQ</a>
+        </nav>
+        <div class="header__actions">
+            <button class="btn btn--link" onclick="window.location.href='kirish.html'">Kirish</button>
+            <button class="btn btn--primary" onclick="window.location.href='royhat.html'">Ro'yxatdan o'tish</button>
+        </div>
+    </header>
+
+    <!-- MAIN - ASOSIY MAZMUN -->
+    <main>
+
+        <!-- 2. HERO BO'LIMI -->
+        <section class="hero">
+            <div class="hero__container">
+                <div class="hero__content">
+                    <span class="badge">Yangi davr networking platformasi</span>
+                    <h1 class="hero__title">Tushlik vaqtini <span>foydali aloqalarga</span> aylantiring</h1>
+                    <p class="hero__desc">Birgalikda orqali o'z sohangizdagi mutaxassislar bilan real vaqtda bog'laning,
+                        birga tushlik qiling va professional networking doirangizni kengaytiring.</p>
+                    <div class="hero__buttons">
+                        <button class="btn btn--primary" onclick="window.location.href='royhat.html'">
+                            Hozir boshlang
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                        <button class="btn btn--secondary" onclick="window.location.href='#how-it-works'">Platforma
+                            qanday ishlaydi?</button>
+                    </div>
+                </div>
+
+                <div class="hero__preview">
+                    <!-- Telefon Mockup -->
+                    <div class="phone-mockup">
+                        <div class="phone-mockup__header">
+                            <button class="menu-burger">☰</button>
+                            <span class="phone-mockup__logo">Birgalikda</span>
+                            <div class="avatar-small"></div>
+                        </div>
+                        <div class="phone-mockup__body">
+                            <div class="cafe-card">
+                                <h3>Gofre Cafe</h3>
+                                <p>📍 400m uzoqlikda</p>
+                            </div>
+                            <div class="user-card">
+                                <div class="user-card__avatar"></div>
+                                <div class="user-card__info">
+                                    <h4>Doniyor</h4>
+                                    <p>Senior Android Dev</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Suzuvchi bildirishnomalar (Floating UI) -->
+                    <div class="toast-card">
+                        <div class="toast-card__icon">✓</div>
+                        <div class="toast-card__info">
+                            <h4>Moslik topildi!</h4>
+                            <p>Farhod siz bilan tushlik qilmoqchi</p>
+                        </div>
+                    </div>
+                    <div class="users-badge">
+                        <p>Atrofingizda 15+ mutaxassis</p>
+                        <div class="avatar-group">
+                            <div class="avatar-group__item"></div>
+                            <div class="avatar-group__item"></div>
+                            <div class="avatar-group__item"></div>
+                            <div class="avatar-group__count">+12</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. STATS BO'LIMI -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <h2>50K+</h2>
+                    <p>Faol foydalanuvchilar</p>
+                </div>
+                <div class="stat-item">
+                    <h2>120K+</h2>
+                    <p>Muvaffaqiyatli uchrashuvlar</p>
+                </div>
+                <div class="stat-item">
+                    <h2>4.8★</h2>
+                    <p>App Store va Google Play reytingi</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. HOW IT WORKS BO'LIMI -->
+        <section class="how-it-works-section" id="how-it-works">
+            <div class="section-header">
+                <h2>3 ta oddiy qadamda boshlang</h2>
+                <p>Platformadan foydalanish va yangi tanishlar orttirish hech qachon bunchalik oson bo'lmagan.</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="icon-box icon-blue">👤</div>
+                    <h3>Profil yarating</h3>
+                    <p>Sohangiz, qiziqishlaringiz va maqsadlaringizni kiriting.</p>
+                </div>
+                <div class="step-card">
+                    <div class="icon-box icon-orange">📍</div>
+                    <h3>Joylashuvni yoqing</h3>
+                    <p>Atrofingizdagi kafe va mutaxassislarni xaritada ko'ring.</p>
+                </div>
+                <div class="step-card">
+                    <div class="icon-box icon-green">🤝</div>
+                    <h3>Tushlik va Networking</h3>
+                    <p>Mos keladigan inson bilan uchrashing va suhbatdan bahra oling.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. LIVE MAP BO'LIMI -->
+        <section class="main-container">
+            <div class="text-content">
+                <div class="feature-item">
+                    <div class="feature-icon icon-location">📍</div>
+                    <div class="feature-text">
+                        <h3>Real-vaqtda joylashuv</h3>
+                        <p>Atrofingizdagi hamkorlarni va mavjud kafelarni xaritada real vaqt rejimida kuzatib boring.
+                        </p>
+                    </div>
+                </div>
+                <div class="feature-item" style="margin-top: 24px;">
+                    <div class="feature-icon icon-notification">🔔</div>
+                    <div class="feature-text">
+                        <h3>Tezkor bildirishnomalar</h3>
+                        <p>Kimdir siz bilan tushlik qilish istagini bildiriishi bilan darhol xabar oling.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Xarita moduli -->
+            <div class="map-card">
+                <div class="map-point point-blue" style="top: 30%; left: 40%;"></div>
+                <div class="map-point point-green" style="top: 50%; left: 70%;"></div>
+                <div class="user-profile-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop"
+                        class="user-avatar" alt="User avatar">
+                    <div class="user-info">
+                        <div class="user-name">Malika</div>
+                        <div class="user-details">UX/UI Designer • 1.2 km uzoqlikda</div>
+                    </div>
+                    <div class="katta-btn">
+                        <button class="tel-btn" aria-label="Qo'ng'iroq qilish">📞</button>
+                        <button class="send-message-btn" aria-label="Xabar yuborish">✉️</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. AI SECTION -->
+        <section class="ai-section">
+            <div class="orta">
+                <p class="ai">AI MATCHMAKING</p>
+                <p>Aqlli Networking Tizimi</p>
+            </div>
+            <div class="ota">
+                <div class="quti">
+                    <div class="quti-img">💡</div>
+                    <div class="quti-text">
+                        <h1>Sun'iy intellekt tavsiyalari</h1>
+                        <p>Tizim qiziqishlaringiz va sohangizdan kelib chiqib, sizga eng mos suhbatdoshlarni tanlaydi.
+                        </p>
+                    </div>
+                </div>
+                <div class="quti">
+                    <div class="quti-img">🎯</div>
+                    <div class="quti-text">
+                        <h1>Aniq maqsadli uchrashuv</h1>
+                        <p>Vaqtingizni bekorga sarflamaysiz, faqat o'zaro manfaatli professional aloqalar o'rnatiladi.
+                        </p>
+                    </div>
+                </div>
+                <div class="quti">
+                    <div class="quti-img">🔒</div>
+                    <div class="quti-text">
+                        <h1>Xavfsiz va maxfiy</h1>
+                        <p>Sizning shaxsiy ma'lumotlaringiz va joylashuvingiz faqat siz ruxsat berganingizdan so'ng
+                            ko'rinadi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. GAMIFICATION & LEADERBOARD BO'LIMI -->
+        <section class="sec" id="reyting">
+            <div class="container">
+                <div class="stats-section">
+                    <h2 class="section-title">Faol bo'ling va mukofotlar yuting</h2>
+                    <p class="section-desc">Har bir muvaffaqiyatli networking uchrashuvidan so'ng ballar to'plang, yangi
+                        nishonlarni oching va yetakchilar ro'yxatida yuqoriga ko'tariling.</p>
+
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div class="stat-card">
+                            <span class="card-value highlight-orange">1,250</span>
+                            <span class="card-label">Haftalik umumiy ballar</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="card-value highlight-blue">Top 5%</span>
+                            <span class="card-label">Eng faol foydalanuvchilar</span>
+                        </div>
+                    </div>
+
+                    <div class="badges-wrapper">
+                        <div class="badge badge-gold">🥇</div>
+                        <div class="badge badge-blue">🚀</div>
+                        <div class="badge badge-green">💬</div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Card -->
+                <div class="leaderboard-card">
+                    <h3 class="leaderboard-title">Haftalik Yetakchilar Ro'yxati</h3>
+                    <div class="leaderboard-list">
+                        <div class="leaderboard-item">
+                            <span class="rank-number rank-1">1</span>
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=100&auto=format&fit=crop"
+                                class="user-img" alt="User 1">
+                            <div class="user-meta">
+                                <span class="user-name">Anvar Ismoilov</span>
+                                <span class="user-role">Product Manager</span>
+                            </div>
+                            <span class="user-points text-green">2,450 ball</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <span class="rank-number rank-2">2</span>
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=100&auto=format&fit=crop"
+                                class="user-img" alt="User 2">
+                            <div class="user-meta">
+                                <span class="user-name">Madina Aliyeva</span>
+                                <span class="user-role">iOS Developer</span>
+                            </div>
+                            <span class="user-points text-green">2,100 ball</span>
+                        </div>
+                        <div class="leaderboard-item">
+                            <span class="rank-number rank-3">3</span>
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100&auto=format&fit=crop"
+                                class="user-img" alt="User 3">
+                            <div class="user-meta">
+                                <span class="user-name">Sardor Rahimov</span>
+                                <span class="user-role">Data Scientist</span>
+                            </div>
+                            <span class="user-points text-green">1,980 ball</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. PRICING BO'LIMI -->
+        <section class="pricing" id="tariflar">
+            <div class="pricing-container">
+                <div class="pricing-header">
+                    <h2 class="main-title">Ehtiyojingizga mos tarifni tanlang</h2>
+                    <div class="toggle-container">
+                        <span class="toggle-label active">Oylik</span>
+                        <label class="switch">
+                            <input type="checkbox" id="billing-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span class="toggle-label text-light">Yillik <span
+                                style="color: #0BB46A; font-weight: bold;">(-20%)</span></span>
+                    </div>
+                </div>
+
+                <div class="pricing-grid">
+                    <!-- Bepul Tarif -->
+                    <div class="price-card">
+                        <div class="card-header">
+                            <h3 class="plan-name">Boshlang'ich</h3>
+                            <p class="plan-desc">Yangi boshlaganlar uchun asosiy imkoniyatlar</p>
+                        </div>
+                        <div class="card-price">
+                            <span class="amount">0</span>
+                            <span class="period">/ oy</span>
+                        </div>
+                        <div class="features-list">
+                            <div class="feature-item checked"><span class="icon">✓</span> Oyiga 5 ta uchrashuv</div>
+                            <div class="feature-item checked"><span class="icon">✓</span> Asosiy qidiruv va xarita</div>
+                            <div class="feature-item disabled"><span class="icon">✕</span> AI tavsiyalari</div>
+                            <div class="feature-item disabled"><span class="icon">✕</span> Premium nishonlar</div>
+                        </div>
+                        <button class="btn btn-outline btn--full" onclick="window.location.href='royhat.html'">Bepul
+                            boshlash</button>
+                    </div>
+
+                    <!-- Premium Tarif -->
+                    <div class="price-card popular">
+                        <span class="badge-popular">ENG OMMABOP</span>
+                        <div class="card-header">
+                            <h3 class="plan-name">Pro Networking</h3>
+                            <p class="plan-desc">Faol professional va aloqalarni chiquvchilar uchun</p>
+                        </div>
+                        <div class="card-price">
+                            <span class="amount">$9</span>
+                            <span class="period">/ oy</span>
+                        </div>
+                        <div class="features-list">
+                            <div class="feature-item checked"><span class="icon">✓</span> Cheksiz uchrashuvlar</div>
+                            <div class="feature-item checked"><span class="icon">✓</span> AI Matchmaking tavsiyalari
+                            </div>
+                            <div class="feature-item checked"><span class="icon">✓</span> Leaderboardda eksklyuziv
+                                status</div>
+                            <div class="feature-item checked"><span class="icon">✓</span> Kafe chegirmalari</div>
+                        </div>
+                        <button class="btn btn-filled btn--full" onclick="window.location.href='royhat.html'">Pro-ga
+                            o'tish</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. ACCORDION BO'LIMI (FAQ) -->
+        <section class="akkardion" id="faq">
+            <div class="faq-container">
+                <h2 class="faq-title">Ko'p beriladigan savollar</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Platformadan foydalanish xavfsizmi?
+                        <span class="faq-arrow"></span>
+                    </button>
+                    <div class="faq-answer">
+                        Ha, albatta. Foydalanuvchilar xavfsizligi biz uchun birinchi o'rinda. Barcha profillar LinkedIn
+                        yoki telefon raqami orqali tekshiriladi (verifikatsiya qilinadi). Joylashuvingiz esa faqat siz
+                        tasdiqlagan hamkorga ko'rinadi.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Birgalikda orqali qanday hamkorlar topish mumkin?
+                        <span class="faq-arrow"></span>
+                    </button>
+                    <div class="faq-answer">
+                        Platformamizda dasturchilar, dizaynerlar, marketologlar, startap asoschilari va turli biznes
+                        egalari mavjud. Filtrlash tizimi orqali o'zingizga kerakli soha mutaxassisini oson topasiz.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. DOWNLOAD CTA BANNER -->
+        <section class="banner">
+            <div class="banner-container">
+                <h2 class="banner-title">Mobil ilovani yuklab oling</h2>
+                <p class="banner-subtitle">Birgalikda ilovasi yordamida yo'lda ham networking qilishni davom ettiring.
+                    iOS va Android tizimlari uchun mavjud.</p>
+                <div class="button-group">
+                    <a href="royhat.html" class="store-button">
+                        <button class="ikkala">
+                            📱 App Store'dan yuklash
+                        </button>
+                    </a>
+                    <a href="royhat.html" class="store-button">
+                        <button class="ikkala">
+                            🤖 Google Play'dan yuklash
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 11. FOOTER BO'LIMI -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="logo" style="display:flex; align-items:center; gap:8px;"><span style="font-size:22px;">🍽️</span> <span style="font-size:18px; font-weight:800; background:linear-gradient(135deg, #0077b6, #005A87); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-0.4px;">Birgalikda</span></div>
+                <p class="description">Tushlik vaqtini yangi bilimlarga va professional tanishuvlarga boyiting.</p>
+                <div class="social-icons">
+                    <a href="Yordam.html" class="icon-btn">Telegram</a>
+                    <a href="royhat.html" class="icon-btn">LinkedIn</a>
+                    <a href="index.html#how-it-works" class="icon-btn">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Kompaniya</h3>
+                <ul>
+                    <li><a href="index.html#how-it-works">Biz haqimizda</a></li>
+                    <li><a href="royhat.html">Karyera</a></li>
+                    <li><a href="index.html#faq">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Yordam</h3>
+                <ul>
+                    <li><a href="Yordam.html">Qo'llab-quvvatlash</a></li>
+                    <li><a href="Maxfiylik.html">Xavfsizlik qoidalari</a></li>
+                    <li><a href="Yordam.html#support-form">Aloqa</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <p>&copy; 2026 Birgalikda. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
