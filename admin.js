@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sozlamalarLink && sozlamalarLink.textContent.trim().includes('Sozlamalar')) {
         sozlamalarLink.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = 'xarita.html?openSettings=true';
+            window.location.href = 'Sozlamalar.html';
         });
     }
 

@@ -1,56 +1,130 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
+    <script src="theme-detector.js?v=2.0"></script>
+    <script src="auth-guard.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birgalikda - Qidiruv Natijalari</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Asosiy.css?v=2.0">
     <link rel="stylesheet" href="Qidiruv.css">
     <link rel="shortcut icon" href="images/Sreaching%20Icon.jpg" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<base target="_blank">
     <link rel="stylesheet" href="responsive.css?v=2.0">
     <link rel="stylesheet" href="mobile-300.css?v=1.0">
+    <link rel="stylesheet" href="theme.css?v=2.0">
+    <script src="global.js?v=1.0" defer></script>
 </head>
-<body>
+<body class="dashboard-shell">
 
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="navbar-left">
-            <div class="logo">
-                <i class="fa-solid fa-utensils logo-icon"></i>
-                Birgalikda
-            </div>
-            <nav class="nav-links">
-                <a href="Asosiy.html" class="active">Bosh sahifa</a>
-                <a href="xarita.html">Xarita</a>
-                <a href="Asosiy.html#leaders-list">Reyting</a>
-            </nav>
+    <!-- Sidebar navigation -->
+    <aside class="side-navigation">
+        <div class="side-logo">
+            <span class="side-logo-icon">🍽️</span>
+            <span class="side-logo-text">Birgalikda</span>
         </div>
-
-        <div class="search-bar-wrapper">
-            <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input type="text" id="global-search" value="" placeholder="Qidiruv..." autocomplete="off">
-            <button class="search-submit" type="button" aria-label="Qidirish">
-                <i class="fa-solid fa-arrow-right"></i>
+        <nav>
+            <a class="birinchisi" href="Asosiy.html">
+                <div class="container">
+                    <img src="images/Icon.svg" alt="Asosiy">
+                </div>
+                <div class="container-2">
+                    Asosiy
+                </div>
+            </a>
+            <a class="ikkinchisi" href="xarita.html">
+                <div class="container">
+                    <img src="images/Icon (1).svg" alt="Xarita">
+                </div>
+                <div class="container-2">
+                    Xarita
+                </div>
+            </a>
+            <a class="uchinchisi" href="Asosiy.html#leaders-list">
+                <div class="container">
+                    <img src="images/Icon (2).svg" alt="Reyting">
+                </div>
+                <div class="container-2">
+                    Reyting
+                </div>
+            </a>
+            <a class="beshinchisi" href="statistika.html">
+                <div class="container">
+                    <img src="images/Icon (4).svg" alt="Statistika">
+                </div>
+                <div class="container-2">
+                    Statistika
+                </div>
+            </a>
+            <a class="oltinchisi" href="Sozlamalar.html">
+                <div class="container">
+                    <img src="images/Icon (5).svg" alt="Sozlamalar">
+                </div>
+                <div class="container-2">
+                    Sozlamalar
+                </div>
+            </a>
+            <a class="yettinchisi" href="takliflar.html">
+                <div class="container">
+                    <img src="images/Icon (6).svg" alt="Takliflar">
+                </div>
+                <div class="container-2">
+                    Takliflar
+                </div>
+            </a>
+        </nav>
+        <div class="margin-announce-box">
+            <button type="button" class="btn-announce ripple" id="btn-announce-lunch">
+                <i class="fa-solid fa-plus"></i>
+                <span>E'lon qo'shish</span>
             </button>
         </div>
-
-        <div class="navbar-right">
-            <button class="nav-btn" onclick="window.location.href='Bildirishnomalar.html'" aria-label="Bildirishnomalar">
-                <i class="fa-regular fa-bell"></i>
-                <span class="notification-badge" id="nav-notif-count" style="display:none;">0</span>
-            </button>
-            <div class="avatar" tabindex="0" role="button" aria-label="Profil menyusi" onclick="window.location.href='profileS.html'" style="cursor:pointer;">
-                <img id="nav-avatar-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Foydalanuvchi avatar">
-            </div>
+        <div class="container-0">
+            <a href="Yordam.html">
+                <div class="container">
+                    <img src="images/Icon (7).svg" alt="Yordam">
+                </div>
+                <div class="container-2">
+                    Yordam
+                </div>
+            </a>
+            <a href="kirish.html" id="logout-link">
+                <div class="container">
+                    <img src="images/Icon (8).svg" alt="Chiqish">
+                </div>
+                <div class="container-2">
+                    Chiqish
+                </div>
+            </a>
         </div>
-    </header>
+    </aside>
 
-    <div class="search-layout">
+    <main class="main-content">
+        <!-- Top bar containing search and quick profile actions -->
+        <header class="dashboard-search-header">
+            <div class="search-bar-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="global-search" value="" placeholder="Hamkorlarni ismi yoki sohalari bo'yicha qidirish..." autocomplete="off">
+                <button class="search-submit" type="button" aria-label="Qidirish">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="header-actions">
+                <button class="nav-btn" onclick="window.location.href='Bildirishnomalar.html'" aria-label="Bildirishnomalar">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge" id="nav-notif-count" style="display:none;">0</span>
+                </button>
+                <div class="avatar" tabindex="0" role="button" aria-label="Profil menyusi" onclick="window.location.href='profileS.html'" style="cursor:pointer;">
+                    <img id="nav-avatar-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="Foydalanuvchi avatar">
+                </div>
+            </div>
+        </header>
+
+        <div class="search-layout">
         <!-- Filtrlar sidebar -->
         <aside class="filter-sidebar">
             <div class="sidebar-header">
@@ -62,17 +136,40 @@
 
             <form id="filter-form">
                 <div class="filter-group">
-                    <label class="filter-label" for="filter-department">Bo'lim</label>
-                    <div class="select-wrapper">
-                        <select id="filter-department" class="select-field">
-                            <option value="all">Barchasi</option>
-                            <option value="it">IT Department</option>
-                            <option value="marketing">Marketing</option>
-                            <option value="hr">HR</option>
-                            <option value="design">Dizayn</option>
-                            <option value="finance">Moliya</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down select-arrow"></i>
+                    <label class="filter-label">Bo'lim</label>
+                    <select id="filter-department" style="display: none;">
+                        <option value="all">Barchasi</option>
+                        <option value="it">IT Department</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="hr">HR</option>
+                        <option value="design">Dizayn</option>
+                        <option value="finance">Moliya</option>
+                    </select>
+                    <div class="dept-chips-container">
+                        <button type="button" class="dept-chip active" data-value="all">
+                            <i class="fa-solid fa-globe"></i>
+                            <span>Barchasi</span>
+                        </button>
+                        <button type="button" class="dept-chip" data-value="it">
+                            <i class="fa-solid fa-code"></i>
+                            <span>IT</span>
+                        </button>
+                        <button type="button" class="dept-chip" data-value="marketing">
+                            <i class="fa-solid fa-bullhorn"></i>
+                            <span>Marketing</span>
+                        </button>
+                        <button type="button" class="dept-chip" data-value="hr">
+                            <i class="fa-solid fa-users-gear"></i>
+                            <span>HR</span>
+                        </button>
+                        <button type="button" class="dept-chip" data-value="design">
+                            <i class="fa-solid fa-palette"></i>
+                            <span>Dizayn</span>
+                        </button>
+                        <button type="button" class="dept-chip" data-value="finance">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span>Moliya</span>
+                        </button>
                     </div>
                 </div>
 
@@ -101,26 +198,36 @@
 
                 <div class="filter-group">
                     <label class="filter-label">Masofa</label>
-                    <label class="radio-label">
-                        <input type="radio" name="distance" value="500" checked>
-                        <span class="custom-radio"></span>
-                        <span class="radio-text">&lt; 500m</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="distance" value="1000">
-                        <span class="custom-radio"></span>
-                        <span class="radio-text">&lt; 1km</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="distance" value="2000">
-                        <span class="custom-radio"></span>
-                        <span class="radio-text">&lt; 2km</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="distance" value="5000">
-                        <span class="custom-radio"></span>
-                        <span class="radio-text">&lt; 5km</span>
-                    </label>
+                    <div class="distance-selector-grid">
+                        <label class="distance-card-label">
+                            <input type="radio" name="distance" value="500" checked>
+                            <div class="distance-card">
+                                <i class="fa-solid fa-person-walking"></i>
+                                <span>500m</span>
+                            </div>
+                        </label>
+                        <label class="distance-card-label">
+                            <input type="radio" name="distance" value="1000">
+                            <div class="distance-card">
+                                <i class="fa-solid fa-bicycle"></i>
+                                <span>1km</span>
+                            </div>
+                        </label>
+                        <label class="distance-card-label">
+                            <input type="radio" name="distance" value="2000">
+                            <div class="distance-card">
+                                <i class="fa-solid fa-car-side"></i>
+                                <span>2km</span>
+                            </div>
+                        </label>
+                        <label class="distance-card-label">
+                            <input type="radio" name="distance" value="5000">
+                            <div class="distance-card">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                                <span>5km</span>
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="filter-group">
@@ -274,22 +381,9 @@
                 </div>
             </div>
 
-        </main>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-left">
-            <span class="footer-logo"><i class="fa-solid fa-utensils"></i> Birgalikda</span>
-            <p class="copyright">© 2026 Birgalikda. Barcha huquqlar himoyalangan.</p>
-        </div>
-        <div class="footer-links">
-            <a href="Yordam.html">Biz haqimizda</a>
-            <a href="Maxfiylik.html">Maxfiylik siyosati</a>
-            <a href="Yordam.html#faq-section">Foydalanish shartlari</a>
-            <a href="Yordam.html#support-form">Bog'lanish</a>
-        </div>
-    </footer>
+        </main> <!-- Closes results-content -->
+    </div> <!-- Closes search-layout -->
+    </main> <!-- Closes main-content -->
 
     <!-- Modal -->
     <div id="details-modal" class="custom-modal">
@@ -324,5 +418,40 @@
     <div class="toast-container" id="toast-container"></div>
 
     <script src="Qidiruv.js"></script>
+    <script src="sidebar.js?v=1.4"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('filter-department');
+            const chips = document.querySelectorAll('.dept-chip');
+            
+            if (select && chips.length > 0) {
+                // Intercept programmatic writes (e.g. from Qidiruv.js reset)
+                const descriptor = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value');
+                Object.defineProperty(select, 'value', {
+                    get: function() {
+                        return descriptor.get.call(this);
+                    },
+                    set: function(val) {
+                        descriptor.set.call(this, val);
+                        chips.forEach(chip => {
+                            if (chip.getAttribute('data-value') === val) {
+                                chip.classList.add('active');
+                            } else {
+                                chip.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+
+                // Handle click on custom chips
+                chips.forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        const val = chip.getAttribute('data-value');
+                        select.value = val; // This triggers the setter above
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

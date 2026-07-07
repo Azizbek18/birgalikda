@@ -124,5 +124,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Qolgan faol bo'lmagan tugmalar
     const secondaryHeroBtn = document.querySelector('.hero__buttons .btn--secondary');
     // Scroll behavior was added in html via onclick directly, but if not we can add it here too
-    
+
+    // ===== PRICING TARIFF TOGGLE =====
+    const billingToggle = document.getElementById('billing-toggle');
+    const proPriceAmount = document.querySelector('.price-card.popular .amount');
+    const toggleLabels = document.querySelectorAll('.toggle-container .toggle-label');
+
+    if (billingToggle && proPriceAmount && toggleLabels.length >= 2) {
+        const monthlyLabel = toggleLabels[0];
+        const yearlyLabel = toggleLabels[1];
+
+        billingToggle.addEventListener('change', () => {
+            // Apply fade transition effect
+            proPriceAmount.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+            proPriceAmount.style.opacity = '0';
+            proPriceAmount.style.transform = 'scale(0.8)';
+
+            setTimeout(() => {
+                if (billingToggle.checked) {
+                    // Yearly active
+                    proPriceAmount.textContent = '$7.2';
+                    monthlyLabel.classList.remove('active');
+                    monthlyLabel.classList.add('text-light');
+                    yearlyLabel.classList.add('active');
+                    yearlyLabel.classList.remove('text-light');
+                } else {
+                    // Monthly active
+                    proPriceAmount.textContent = '$9';
+                    monthlyLabel.classList.add('active');
+                    monthlyLabel.classList.remove('text-light');
+                    yearlyLabel.classList.remove('active');
+                    yearlyLabel.classList.add('text-light');
+                }
+                
+                proPriceAmount.style.opacity = '1';
+                proPriceAmount.style.transform = 'scale(1)';
+            }, 200);
+        });
+    }
 });
+

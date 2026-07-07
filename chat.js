@@ -349,7 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             id,
                             lunch_requests (
                                 id,
+                                status,
                                 lunch_announcements (
+                                    id,
                                     lunch_date,
                                     start_time,
                                     end_time
@@ -475,14 +477,14 @@ document.addEventListener("DOMContentLoaded", () => {
             msgRow.innerHTML = `
                 <img src="${partner.avatar}" alt="" class="avatar">
                 <div>
-                    <div class="msg-bubble">${text}</div>
+                    <div class="msg-bubble">${escapeHtml(text)}</div>
                     <span class="msg-time">${time}</span>
                 </div>
             `;
         } else {
             msgRow.innerHTML = `
                 <div>
-                    <div class="msg-bubble">${text}</div>
+                    <div class="msg-bubble">${escapeHtml(text)}</div>
                     <span class="msg-time">${time} <i class="fa-solid fa-check-double" style="color:#e0f2fe; margin-left:2px;"></i></span>
                 </div>
             `;

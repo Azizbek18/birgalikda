@@ -319,6 +319,24 @@
         display: block !important;
     }
 
+    /* Sidebar announce button and spacing fixes */
+    .side-navigation nav {
+        flex: none !important;
+        flex-shrink: 0 !important;
+    }
+
+    .margin-announce-box {
+        margin-top: 24px !important;
+        margin-bottom: 24px !important;
+        flex-shrink: 0 !important;
+    }
+
+    .container-0 {
+        flex-shrink: 0 !important;
+        margin-top: 8px !important;
+        padding-bottom: 24px !important;
+    }
+
     /* Right panel handling */
     .right-panel {
         display: none !important;

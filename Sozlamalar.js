@@ -10,6 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const supabaseKey = 'sb_publishable_VzI36RYaoGx_8MfGne-MhA_KjXo82Lv';
     const supabaseClient = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
+    function getUserId() {
+        try {
+            const token = localStorage.getItem('sb-doboqtivghcdcoowoxmh-auth-token');
+            if (token) {
+                const parsed = JSON.parse(token);
+                return parsed?.user?.id || null;
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        return null;
+    }
+
+    const myId = getUserId();
+
     /* ---------- Elementlar ---------- */
     const profileForm = document.getElementById("profile-settings-form");
     const saveBtn = document.getElementById("save-profile-btn");
@@ -85,9 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function saveSettings(data) {
-        const current = loadSettings();
-        const next = { ...current, ...data };
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        const next = window.BirgalikdaSettings?.set
+            ? window.BirgalikdaSettings.set(data)
+            : { ...loadSettings(), ...data };
+
+        if (!window.BirgalikdaSettings?.set) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+            if (data.theme) localStorage.setItem('theme', data.theme);
+            window.dispatchEvent(new CustomEvent('birgalikda:settings-updated', { detail: next }));
+        }
+
+        return next;
     }
 
     /* ==================================================================
@@ -185,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (saved.avatar) setAvatar(saved.avatar);
 
         // Supabase dan yuklash
-        if (!supabaseClient) {
+        if (!supabaseClient || !myId) {
             // LocalStorage'dan to'ldirish
             if (saved.profile) {
                 inputs.name.value = saved.profile.name || '';
@@ -203,12 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const { data, error } = await supabaseClient
                 .from('profiles')
                 .select('*')
-                .eq('id', 1)
+                .eq('id', myId)
                 .single();
 
             if (data && !error) {
-                inputs.name.value = data.name || '';
-                inputs.company.value = data.company || '';
+                inputs.name.value = data.full_name || '';
+                inputs.company.value = data.role || '';
                 inputs.bio.value = data.bio || '';
                 inputs.interests.value = data.interests ? data.interests.join(', ') : '';
                 updateBioCount();
@@ -228,8 +251,23 @@ document.addEventListener("DOMContentLoaded", () => {
         headerName.textContent = name;
     }
 
-    inputs.name.addEventListener('input', updateDisplay);
-    inputs.company.addEventListener('input', updateDisplay);
+    function collectProfileData() {
+        return {
+            full_name: inputs.name.value.trim(),
+            role: inputs.company.value.trim(),
+            bio: inputs.bio.value.trim(),
+            interests: inputs.interests.value.split(',').map(i => i.trim()).filter(Boolean)
+        };
+    }
+
+    function saveProfileDraft() {
+        updateDisplay();
+        saveSettings({ profile: collectProfileData() });
+    }
+
+    Object.values(inputs).forEach((input) => {
+        input.addEventListener('input', saveProfileDraft);
+    });
 
     /* ==================================================================
        7. PROFIL FORMASINI SAQLASH
@@ -247,23 +285,18 @@ document.addEventListener("DOMContentLoaded", () => {
         saveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i><span>Saqlanmoqda...</span>';
         saveBtn.disabled = true;
 
-        const updatedData = {
-            id: 1,
-            name: inputs.name.value.trim(),
-            company: inputs.company.value.trim(),
-            bio: inputs.bio.value.trim(),
-            interests: inputs.interests.value.split(',').map(i => i.trim()).filter(Boolean)
-        };
+        const updatedData = collectProfileData();
 
         // LocalStorage'ga saqlash (off-line kesh)
         saveSettings({ profile: updatedData });
 
         let success = true;
-        if (supabaseClient) {
+        if (supabaseClient && myId) {
             try {
                 const { error } = await supabaseClient
                     .from('profiles')
-                    .upsert(updatedData);
+                    .update(updatedData)
+                    .eq('id', myId);
                 if (error) {
                     success = false;
                     showToast("Xatolik: " + error.message, true);
@@ -357,18 +390,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const savedTheme = loadSettings().theme || 'light';
 
     function applyTheme(theme) {
-        document.body.classList.remove('dark-theme');
-        document.documentElement.classList.remove('dark-theme');
-        if (theme === 'dark') {
-            document.body.classList.add('dark-theme');
-            document.documentElement.classList.add('dark-theme');
-        } else if (theme === 'auto') {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            if (prefersDark) {
-                document.body.classList.add('dark-theme');
-                document.documentElement.classList.add('dark-theme');
-            }
+        if (window.BirgalikdaSettings?.applyTheme) {
+            window.BirgalikdaSettings.applyTheme(theme);
+            return;
         }
+
+        const resolvedTheme = theme === 'auto'
+            ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+            : theme;
+
+        document.body.classList.toggle('dark-theme', resolvedTheme === 'dark');
+        document.documentElement.classList.toggle('dark-theme', resolvedTheme === 'dark');
+        document.body.dataset.theme = resolvedTheme;
+        document.documentElement.dataset.theme = resolvedTheme;
     }
 
 
@@ -391,6 +425,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // Auto tema uchun tizim o'zgarishini kuzatish
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (loadSettings().theme === 'auto') applyTheme('auto');
+    });
+
+    function syncSettingsControls(settings = loadSettings()) {
+        const currentTheme = settings.theme || 'light';
+        themeOptions.forEach(opt => opt.classList.toggle('active', opt.dataset.theme === currentTheme));
+        applyTheme(currentTheme);
+
+        Object.entries(settings.toggles || {}).forEach(([id, value]) => {
+            const el = document.getElementById(id);
+            if (el && el.checked !== Boolean(value)) el.checked = Boolean(value);
+        });
+
+        if (settings.locale) {
+            if (settings.locale.language && appLanguage) appLanguage.value = settings.locale.language;
+            if (settings.locale.timezone && appTimezone) appTimezone.value = settings.locale.timezone;
+        }
+
+        if (settings.privacy?.invitePermission && invitePermission) {
+            invitePermission.value = settings.privacy.invitePermission;
+        }
+
+        if (settings.profile) {
+            inputs.name.value = settings.profile.name || '';
+            inputs.company.value = settings.profile.company || '';
+            inputs.bio.value = settings.profile.bio || '';
+            inputs.interests.value = (settings.profile.interests || []).join(', ');
+            updateBioCount();
+            updateInterestsPreview();
+            updateDisplay();
+        }
+    }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === STORAGE_KEY || event.key === 'theme') syncSettingsControls();
+    });
+
+    window.addEventListener('birgalikda:settings-updated', (event) => {
+        syncSettingsControls(event.detail || loadSettings());
     });
 
     /* ==================================================================

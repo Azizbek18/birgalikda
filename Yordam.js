@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const textInput = document.getElementById("message-text");
             if (!textInput || !textInput.value.trim()) return;
 
-            const dateOptions = { day: 'numeric', month: 'Long' };
+            const dateOptions = { day: 'numeric', month: 'long' };
             const todayFormatted = new Date().toLocaleDateString('uz-UZ', dateOptions);
 
             // Dinamik tikket qurish paneli

@@ -2134,3 +2134,921 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--text-subtle);
 }
+
+/* ============================================================
+   Dashboard Integration Overrides & Search Header Styling
+   ============================================================ */
+
+/* Hide the old navbar completely since we are using sidebar */
+.navbar {
+    display: none !important;
+}
+
+/* Premium Dashboard Search Header at the top of main content */
+.dashboard-search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    gap: 2rem;
+}
+
+.dashboard-search-header .search-bar-wrapper {
+    flex: 1;
+    max-width: 32rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-search-header .search-bar-wrapper .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.dashboard-search-header .search-bar-wrapper input {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 2.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+}
+
+.dashboard-search-header .search-bar-wrapper input:focus {
+    outline: none;
+    border-color: var(--color-brand);
+    background-color: var(--bg-surface);
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.dashboard-search-header .search-bar-wrapper .search-submit {
+    position: absolute;
+    right: 0.5rem;
+    background: var(--color-brand);
+    color: white;
+    border: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dashboard-search-header .search-bar-wrapper .search-submit:hover {
+    background: var(--color-brand-hover);
+    transform: scale(1.05);
+}
+
+.dashboard-search-header .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.dashboard-search-header .nav-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.dashboard-search-header .nav-btn:hover {
+    background: var(--border-light);
+    color: var(--color-brand);
+    transform: translateY(-1px);
+}
+
+.dashboard-search-header .notification-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+.dashboard-search-header .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+.dashboard-search-header .avatar:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-md);
+}
+
+.dashboard-search-header .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Adjust Qidiruv layout to fit inside the main-content scroll container */
+.search-layout {
+    margin: 2rem auto !important;
+    padding: 0 2.5rem !important;
+    max-width: 84rem !important;
+}
+
+body.dark-theme .dashboard-search-header {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .dashboard-search-header .search-bar-wrapper input {
+    background-color: #0f172a;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+body.dark-theme .dashboard-search-header .search-bar-wrapper input:focus {
+    background-color: #1e293b;
+}
+
+body.dark-theme .dashboard-search-header .nav-btn {
+    background-color: #1e293b;
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+}
+
+body.dark-theme .dashboard-search-header .nav-btn:hover {
+    background-color: #334155;
+    color: #38bdf8;
+}
+
+body.dark-theme .dashboard-search-header .notification-badge {
+    border-color: #1e293b;
+}
+
+/* Enforce dashboard layout on Qidiruv page */
+body.dashboard-shell {
+    display: flex !important;
+    flex-direction: row !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background-color: var(--bg-primary) !important;
+}
+
+body.dashboard-shell .main-content {
+    padding: 0 !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+    background-color: var(--bg-primary) !important;
+}
+
+.search-layout {
+    margin: 0 auto !important;
+    padding: 2rem 2.5rem !important;
+    max-width: 84rem !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    gap: 1.5rem !important;
+}
+
+/* ============================================================
+   Premium UI Styling Redesign for Filters & Search Results
+   ============================================================ */
+
+/* 1. Sleek Filter Sidebar styling */
+.filter-sidebar {
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 20px !important;
+    padding: 1.5rem 1.75rem !important;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.02) !important;
+}
+
+.sidebar-header {
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6) !important;
+    padding-bottom: 1rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.sidebar-title {
+    font-size: 11px !important;
+    letter-spacing: 1.5px !important;
+    font-weight: 700 !important;
+    color: var(--text-muted) !important;
+}
+
+/* Clear filters button */
+.clear-filters {
+    font-size: 0.8rem !important;
+    color: #ef4444 !important;
+    background: none !important;
+    border: none !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.clear-filters:hover {
+    color: #dc2626 !important;
+}
+
+/* Filter Groups and Fields */
+.filter-group {
+    margin-bottom: 1.5rem !important;
+}
+
+.filter-label {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--text-dark) !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+/* Custom Select Field */
+.select-wrapper {
+    position: relative !important;
+    width: 100% !important;
+}
+
+.select-field {
+    width: 100% !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    background-color: #f8fafc !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: var(--text-dark) !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+.select-field:focus {
+    outline: none !important;
+    border-color: var(--color-brand) !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1) !important;
+}
+
+.select-arrow {
+    position: absolute !important;
+    right: 1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: var(--text-muted) !important;
+    pointer-events: none !important;
+    font-size: 0.75rem !important;
+}
+
+/* Time Button Group (Chips style) */
+.time-btn-group {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+}
+
+.time-btn {
+    padding: 0.65rem 0.5rem !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    background: #ffffff !important;
+    color: var(--text-main) !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    text-align: center !important;
+}
+
+.time-btn:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+.time-btn.active {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2) !important;
+}
+
+/* Custom Rating Slider */
+.slider-container {
+    height: 6px !important;
+    background: #e2e8f0 !important;
+    border-radius: 9999px !important;
+    position: relative !important;
+    margin: 1rem 0 0.5rem 0 !important;
+}
+
+.slider-track {
+    height: 100% !important;
+    background: linear-gradient(90deg, #0284c7, #0EA5E9) !important;
+    border-radius: 9999px !important;
+    position: absolute !important;
+    left: 0 !important;
+}
+
+.slider-thumb {
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 3px solid var(--color-brand) !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    cursor: pointer !important;
+    transition: transform 0.1s ease !important;
+}
+
+.slider-thumb:hover {
+    transform: translate(-50%, -50%) scale(1.15) !important;
+}
+
+.slider-labels {
+    display: flex !important;
+    justify-content: space-between !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+}
+
+#rating-value {
+    color: var(--color-brand) !important;
+    font-weight: 700 !important;
+}
+
+/* Custom Radio & Checkbox buttons */
+.radio-label, .checkbox-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+    margin-bottom: 0.6rem !important;
+    font-size: 13px !important;
+    font-weight: 550 !important;
+    color: var(--text-main) !important;
+}
+
+.custom-radio {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    border: 1.5px solid #cbd5e1 !important;
+    display: inline-block !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+    background: #ffffff !important;
+}
+
+input[type="radio"]:checked + .custom-radio {
+    border-color: var(--color-brand) !important;
+    background: var(--color-brand) !important;
+    box-shadow: inset 0 0 0 3px #ffffff !important;
+}
+
+.checkbox-group input[type="checkbox"] {
+    display: none !important;
+}
+
+.custom-checkbox {
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 6px !important;
+    border: 1.5px solid #cbd5e1 !important;
+    display: inline-block !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
+    background: #ffffff !important;
+    flex-shrink: 0 !important;
+}
+
+.checkbox-label:hover .custom-checkbox {
+    border-color: var(--color-brand) !important;
+    background-color: #f8fafc !important;
+}
+
+input[type="checkbox"]:checked + .custom-checkbox {
+    border-color: var(--color-brand) !important;
+    background: var(--color-brand) !important;
+}
+
+input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: "\f00c" !important;
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: white !important;
+    font-size: 10px !important;
+}
+
+.apply-filters-btn {
+    width: 100% !important;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.85rem !important;
+    border-radius: 12px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2) !important;
+    margin-top: 1rem !important;
+}
+
+.apply-filters-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3) !important;
+}
+
+/* 2. Results Header area */
+.results-header h2 {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    color: var(--text-dark) !important;
+}
+
+.results-header .subtitle {
+    font-size: 13px !important;
+    color: var(--text-muted) !important;
+    font-weight: 500 !important;
+    margin-top: 2px !important;
+}
+
+.sort-btn {
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 10px !important;
+    padding: 0.55rem 1rem !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--text-main) !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+.sort-btn:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+.view-btn {
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 10px !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--text-muted) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.view-btn.active {
+    background: #f1f5f9 !important;
+    color: var(--color-brand) !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* 3. Results Tabs */
+.results-tabs {
+    background: #ffffff !important;
+    padding: 6px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    display: inline-flex !important;
+    gap: 4px !important;
+    width: auto !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02) !important;
+}
+
+.tab-link {
+    background: none !important;
+    border: none !important;
+    padding: 0.65rem 1.25rem !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    transition: all 0.25s ease !important;
+    border-bottom: none !important;
+}
+
+.tab-link:hover {
+    color: var(--text-dark) !important;
+    background: #f8fafc !important;
+}
+
+.tab-link.active {
+    background: var(--color-brand-lighter) !important;
+    color: var(--color-brand) !important;
+}
+
+.tab-count {
+    background: rgba(2, 132, 199, 0.08) !important;
+    color: var(--color-brand) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 2px 8px !important;
+    border-radius: 9999px !important;
+}
+
+.tab-link.active .tab-count {
+    background: var(--color-brand) !important;
+    color: #ffffff !important;
+}
+
+/* 4. Empty State */
+.no-results {
+    background: #ffffff !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 24px !important;
+    padding: 4.5rem 3rem !important;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.02) !important;
+}
+
+.no-results-icon {
+    width: 68px !important;
+    height: 68px !important;
+    background: rgba(2, 132, 199, 0.06) !important;
+    color: var(--color-brand) !important;
+    border-radius: 50% !important;
+    font-size: 26px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 1.5rem !important;
+    box-shadow: 0 0 30px rgba(2, 132, 199, 0.1) !important;
+}
+
+.no-results h3 {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: var(--text-dark) !important;
+}
+
+.no-results-suggestions {
+    background: #f8fafc !important;
+    border-radius: 16px !important;
+    padding: 1.25rem 1.5rem !important;
+    border: 1px dashed rgba(226, 232, 240, 0.9) !important;
+    max-width: 380px !important;
+    margin: 1.5rem auto !important;
+}
+
+.clear-search-btn {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: white !important;
+    border: none !important;
+    padding: 0.8rem 1.75rem !important;
+    border-radius: 12px !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2) !important;
+    transition: all 0.2s ease !important;
+}
+
+.clear-search-btn:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3) !important;
+}
+
+/* Dark Mode Overrides */
+body.dark-theme .filter-sidebar,
+body.dark-theme .results-tabs,
+body.dark-theme .no-results {
+    background: #1e293b !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important;
+}
+
+body.dark-theme .sidebar-header {
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+body.dark-theme .select-field,
+body.dark-theme .time-btn,
+body.dark-theme .sort-btn,
+body.dark-theme .view-btn,
+body.dark-theme .no-results-suggestions {
+    background: #0f172a !important;
+    border-color: rgba(255,255,255,0.08) !important;
+    color: #f8fafc !important;
+}
+
+body.dark-theme .custom-radio,
+body.dark-theme .custom-checkbox {
+    background: #0f172a !important;
+    border-color: rgba(255,255,255,0.15) !important;
+}
+
+body.dark-theme .time-btn:hover,
+body.dark-theme .sort-btn:hover {
+    background: #1e293b !important;
+}
+
+body.dark-theme .time-btn.active {
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%) !important;
+    color: #0f172a !important;
+}
+
+body.dark-theme .tab-link:hover {
+    background: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+body.dark-theme .tab-link.active {
+    background: rgba(56, 189, 248, 0.08) !important;
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .tab-count {
+    background: rgba(56, 189, 248, 0.08) !important;
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .tab-link.active .tab-count {
+    background: #38bdf8 !important;
+    color: #0f172a !important;
+}
+
+/* Enforce dashboard layout on Qidiruv page */
+body.dashboard-shell {
+    display: flex !important;
+    flex-direction: row !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    background-color: var(--bg-primary) !important;
+}
+
+body.dashboard-shell .main-content {
+    padding: 0 !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    min-width: 0 !important;
+    background-color: var(--bg-primary) !important;
+    background-image: radial-gradient(circle, rgba(148, 163, 184, 0.08) 1px, transparent 1px) !important;
+    background-size: 24px 24px !important;
+}
+
+.search-layout {
+    margin: 0 auto !important;
+    padding: 2rem 2.5rem !important;
+    max-width: 84rem !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    gap: 1.5rem !important;
+}
+
+/* Custom distance selector grid styling */
+.distance-selector-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.distance-card-label {
+    cursor: pointer !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+.distance-card-label input[type="radio"] {
+    display: none !important;
+}
+
+.distance-card {
+    background-color: #f8fafc !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 12px !important;
+    padding: 14px 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    transition: all 0.25s ease !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+}
+
+.distance-card i {
+    font-size: 18px !important;
+    color: var(--text-muted) !important;
+    transition: all 0.2s ease !important;
+}
+
+.distance-card span {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Hover state */
+.distance-card-label:hover .distance-card {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Checked state */
+.distance-card-label input[type="radio"]:checked + .distance-card {
+    background-color: var(--color-brand-lighter) !important;
+    border-color: var(--color-brand) !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12) !important;
+}
+
+.distance-card-label input[type="radio"]:checked + .distance-card i {
+    color: var(--color-brand) !important;
+    transform: scale(1.1) !important;
+}
+
+.distance-card-label input[type="radio"]:checked + .distance-card span {
+    color: var(--color-brand) !important;
+}
+
+/* Dark mode compatibility */
+body.dark-theme .distance-card {
+    background-color: #0f172a !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .distance-card-label:hover .distance-card {
+    background-color: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-theme .distance-card-label input[type="radio"]:checked + .distance-card {
+    background-color: rgba(56, 189, 248, 0.08) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15) !important;
+}
+
+body.dark-theme .distance-card-label input[type="radio"]:checked + .distance-card i {
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .distance-card-label input[type="radio"]:checked + .distance-card span {
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .distance-card span {
+    color: #cbd5e1 !important;
+}
+
+/* Custom department chips grid styling */
+.dept-chips-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+}
+
+.dept-chip {
+    background-color: #f8fafc !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    border-radius: 12px !important;
+    padding: 11px 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    transition: all 0.25s ease !important;
+    cursor: pointer !important;
+    outline: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.dept-chip i {
+    font-size: 14px !important;
+    color: var(--text-muted) !important;
+    transition: all 0.2s ease !important;
+    width: 16px !important;
+    text-align: center !important;
+}
+
+.dept-chip span {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: var(--text-main) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Hover state */
+.dept-chip:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+}
+
+/* Active state */
+.dept-chip.active {
+    background-color: var(--color-brand-lighter) !important;
+    border-color: var(--color-brand) !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12) !important;
+}
+
+.dept-chip.active i {
+    color: var(--color-brand) !important;
+    transform: scale(1.1) !important;
+}
+
+.dept-chip.active span {
+    color: var(--color-brand) !important;
+}
+
+/* Dark mode compatibility */
+body.dark-theme .dept-chip {
+    background-color: #0f172a !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .dept-chip:hover {
+    background-color: #1e293b !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+body.dark-theme .dept-chip.active {
+    background-color: rgba(56, 189, 248, 0.08) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15) !important;
+}
+
+body.dark-theme .dept-chip.active i {
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .dept-chip.active span {
+    color: #38bdf8 !important;
+}
+
+body.dark-theme .dept-chip span {
+    color: #cbd5e1 !important;
+}

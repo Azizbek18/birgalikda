@@ -417,24 +417,53 @@ document.addEventListener('DOMContentLoaded', () => {
             card.setAttribute('data-name', user.name);
             card.setAttribute('data-job', user.job);
 
+            // Generate initials or icon placeholder if avatar is missing/default
+            let avatarHtml = '';
+            const isDefaultAvatar = !user.img || 
+                                    user.img.includes('photo-1535713875002-d1d0cf377fde') || 
+                                    user.img.includes('placeholder') || 
+                                    user.img === '';
+            
+            if (isDefaultAvatar) {
+                const colors = [
+                    'linear-gradient(135deg, #0ea5e9, #0284c7)',
+                    'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    'linear-gradient(135deg, #ec4899, #db2777)',
+                    'linear-gradient(135deg, #10b981, #059669)',
+                    'linear-gradient(135deg, #f59e0b, #d97706)',
+                    'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                ];
+                const colorIdx = (user.name || '').length % colors.length;
+                const gradient = colors[colorIdx];
+                const names = (user.name || '').trim().split(/\s+/);
+                const initials = names.map(n => n.charAt(0)).slice(0, 2).join('').toUpperCase();
+                
+                avatarHtml = `
+                    <div class="user-avatar-placeholder" style="background: ${gradient}; width: 100%; height: 100%; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); text-transform: uppercase;">
+                        ${initials || '<i class="fa-solid fa-user"></i>'}
+                    </div>
+                `;
+            } else {
+                avatarHtml = `<img src="${user.img}" alt="${escapeHtml(user.name)}" class="user-img">`;
+            }
+
             let headerHtml = `
                 <div class="card-header">
                     <div class="avatar-wrapper">
-                        <img src="${user.img}" alt="${user.name}" class="user-img">
+                        ${avatarHtml}
                         <span class="status-dot ${user.online ? 'online' : 'offline'}"></span>
                     </div>
                     <div class="user-info">
                         <div class="name-rating">
-                            <h3>${user.name}</h3>
+                            <h3>${escapeHtml(user.name)}</h3>
                             <span class="rating"><i class="fa-solid fa-star"></i> ${user.rating}</span>
                         </div>
-                        <p class="job-title">${user.job}</p>
+                        <p class="job-title">${escapeHtml(user.job)}</p>
                         <div class="tags">
-                            ${(Array.isArray(user.tags) ? user.tags : []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            ${(Array.isArray(user.tags) ? user.tags : []).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
                         </div>
                     </div>
                 </div>
-
             `;
 
             let actionsHtml = '';
@@ -601,6 +630,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const msgBtn = card.querySelector('.msg-btn');
             if (msgBtn) {
                 msgBtn.addEventListener('click', () => {
+                    if (tabName === 'tavsiyalar') {
+                        showWarningModal();
+                        return;
+                    }
                     const partner = {
                         id: user.partnerId || user.id,
                         requestId: user.id,
@@ -675,6 +708,68 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 window.location.href = 'xarita.html';
             }, 1200);
+        });
+    }
+
+    function showWarningModal() {
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.inset = '0';
+        overlay.style.background = 'rgba(15, 23, 42, 0.4)';
+        overlay.style.backdropFilter = 'blur(8px)';
+        overlay.style.webkitBackdropFilter = 'blur(8px)';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.zIndex = '9999';
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.3s ease';
+
+        const win = document.createElement('div');
+        win.style.background = '#ffffff';
+        win.style.borderRadius = '24px';
+        win.style.padding = '32px';
+        win.style.maxWidth = '400px';
+        win.style.width = '90%';
+        win.style.textAlign = 'center';
+        win.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+        win.style.transform = 'scale(0.9) translateY(20px)';
+        win.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        
+        if (document.body.classList.contains('dark-theme')) {
+            win.style.background = '#1e293b';
+            win.style.border = '1px solid rgba(255, 255, 255, 0.08)';
+        }
+
+        win.innerHTML = `
+            <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(239, 68, 68, 0.08); color: #ef4444; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 20px;">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <h3 style="font-size: 20px; font-weight: 800; color: ${document.body.classList.contains('dark-theme') ? '#f8fafc' : '#0f172a'}; margin-bottom: 12px; font-family: 'Inter', sans-serif;">Muloqot cheklangan</h3>
+            <p style="font-size: 14.5px; color: ${document.body.classList.contains('dark-theme') ? '#94a3b8' : '#475569'}; line-height: 1.6; margin-bottom: 24px; font-family: 'Inter', sans-serif;">Oldin taklif yuboring, qabul qilingandan so'ng yoza olasiz.</p>
+            <button class="modal-close-btn" style="background: linear-gradient(135deg, #0077b6 0%, #005A87 100%); color: white; border: none; padding: 12px 28px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s ease; width: 100%; box-shadow: 0 4px 12px rgba(0, 90, 135, 0.2);">Tushunarli</button>
+        `;
+
+        overlay.appendChild(win);
+        document.body.appendChild(overlay);
+
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            win.style.transform = 'scale(1) translateY(0)';
+        });
+
+        const closeBtn = win.querySelector('.modal-close-btn');
+        const closeModal = () => {
+            overlay.style.opacity = '0';
+            win.style.transform = 'scale(0.9) translateY(20px)';
+            setTimeout(() => {
+                overlay.remove();
+            }, 300);
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeModal();
         });
     }
 

@@ -1,8 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
     let lineChartInstance = null;
     let doughnutChartInstance = null;
+    let activeTab = "oy";
 
-    const dashboardData = {
+    // Supabase Configuration
+    const supabaseUrl = localStorage.getItem('Birgalikda_supabase_url');
+    const supabaseKey = localStorage.getItem('Birgalikda_supabase_key');
+    let supabaseClient = null;
+    if (supabaseUrl && supabaseKey) {
+        supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    }
+
+    function getUserId() {
+        return localStorage.getItem('Birgalikda_session_userId') || 'mock-user-123';
+    }
+
+    // Reusable fallback mock data (in case Supabase is empty or offline)
+    const mockDataFallback = {
         hafta: {
             date: "15-21 Dekabr, 2026",
             streakCount: "18 kun 🔥",
@@ -87,8 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const activityGrid = document.getElementById("activityGrid");
     const miniCards = document.querySelectorAll(".mini-card");
     const dateIndicator = document.querySelector(".date-indicator");
-    const fillBars = document.querySelectorAll(".fill-bar");
-    const countLabels = document.querySelectorAll(".count-label");
     const streakCountEl = document.querySelector(".streak-count");
     const recordBadgeEl = document.querySelector(".record-badge");
     const bannerIntroEl = document.querySelector(".banner-left p");
@@ -97,6 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const doughnutCenter = document.querySelector(".doughnut-center-text");
     const doughnutLegend = document.querySelector(".doughnut-legend-list");
     const timelineEl = document.querySelector(".timeline");
+
+    // Global variables to store real database counts
+    let userProfile = null;
+    let userRequests = [];
+    let userAnnouncements = [];
+    let partnerProfiles = [];
+    let isDatabaseLoaded = false;
 
     function renderActivityGrid(pattern) {
         if (!activityGrid) return;
@@ -115,6 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (i === totalCells - 3) cell.classList.add("lvl-special");
 
             activityGrid.appendChild(cell);
+            // Stagger animation
             setTimeout(() => {
                 cell.style.opacity = "1";
                 cell.style.transform = "scale(1)";
@@ -234,8 +254,203 @@ document.addEventListener("DOMContentLoaded", () => {
         `).join("");
     }
 
+    // Main recalculation function based on fetched DB data
+    function computeDashboardData(rangeKey) {
+        const userId = getUserId();
+        const now = new Date();
+        let cutoffDate = null;
+        
+        if (rangeKey === 'hafta') {
+            cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        } else if (rangeKey === 'oy') {
+            cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        }
+        
+        const filterByTime = (item) => {
+            if (!cutoffDate) return true;
+            const itemDate = new Date(item.created_at);
+            return itemDate >= cutoffDate;
+        };
+        
+        const filteredRequests = userRequests.filter(filterByTime);
+        const filteredAnns = userAnnouncements.filter(filterByTime);
+        
+        const acceptedRequests = filteredRequests.filter(r => r.status === 'accepted');
+        const partnerIds = [...new Set(acceptedRequests.map(r => r.sender_id === userId ? r.receiver_id : r.sender_id))];
+        
+        const received = filteredRequests.filter(r => r.receiver_id === userId);
+        const acceptedReceived = received.filter(r => r.status === 'accepted');
+        
+        const rate = received.length > 0 ? Math.round((acceptedReceived.length / received.length) * 100) : 100;
+        const rating = userProfile?.points ? Math.min(5.0, 4.0 + (userProfile.points / 500)).toFixed(1) : '4.8';
+        const hours = Math.round(acceptedRequests.length * 1.5);
+        
+        // Dynamic achievements based on stats
+        const achievements = [];
+        if (acceptedRequests.length >= 1) {
+            achievements.push({ 
+                title: '"Start" unvoni', 
+                desc: "Tizimda birinchi tushlik uchrashuvi muvaffaqiyatli yakunlandi.", 
+                icon: "fa-solid fa-seedling", 
+                color: "#e0f2fe", 
+                iconColor: "#0369a1", 
+                date: "Bajarildi" 
+            });
+        }
+        if (partnerIds.length >= 5) {
+            achievements.push({ 
+                title: '"Ijtimoiy Magnat"', 
+                desc: "Turli xil soha vakillari bilan professional tanishuvlar.", 
+                icon: "fa-solid fa-handshake", 
+                color: "#dcfce7", 
+                iconColor: "#15803d", 
+                date: "Bajarildi" 
+            });
+        }
+        if (acceptedRequests.length >= 10) {
+            achievements.push({ 
+                title: 'Birinchi Rekord', 
+                desc: "10 martadan ko'p muvaffaqiyatli uchrashuvlar yakunlandi.", 
+                icon: "fa-solid fa-fire-flame-curved", 
+                color: "#ffedd5", 
+                iconColor: "#c2410c", 
+                date: "Bajarildi" 
+            });
+        }
+        
+        if (achievements.length === 0) {
+            achievements.push({ 
+                title: "Ilk qadamlar", 
+                desc: "Tizimda faollik uchrashuvlarini boshlab, yutuqlarni oching.", 
+                icon: "fa-solid fa-star", 
+                color: "#f1f5f9", 
+                iconColor: "#64748b", 
+                date: "Kutilmoqda" 
+            });
+        }
+        
+        // Weekly Dynamics line chart (Mon to Sun counts)
+        const lineChartData = [0, 0, 0, 0, 0, 0, 0];
+        const dayMapping = { 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 0: 6 };
+        
+        acceptedRequests.forEach(r => {
+            const rDate = new Date(r.created_at);
+            const dayIdx = dayMapping[rDate.getDay()];
+            if (dayIdx !== undefined) {
+                lineChartData[dayIdx]++;
+            }
+        });
+        
+        // Peak hours calculation
+        const timeBuckets = [
+            { label: "12:00 - 13:00", count: 0 },
+            { label: "13:00 - 14:00", count: 0 },
+            { label: "11:00 - 12:00", count: 0 }
+        ];
+        
+        acceptedRequests.forEach(r => {
+            const hour = new Date(r.created_at).getHours();
+            if (hour === 12) timeBuckets[0].count++;
+            else if (hour === 13) timeBuckets[1].count++;
+            else if (hour === 11) timeBuckets[2].count++;
+        });
+        
+        const maxCount = Math.max(...timeBuckets.map(b => b.count), 1);
+        const peakHours = timeBuckets.map(b => ({
+            label: b.label,
+            percent: `${Math.round((b.count / maxCount) * 100)}%`,
+            count: `${b.count} marta`
+        }));
+        
+        // Partner departments (doughnut)
+        const deptCounts = {};
+        partnerProfiles.forEach(p => {
+            const role = (p.role || 'Boshqa').split(' ')[0] || 'Boshqa';
+            deptCounts[role] = (deptCounts[role] || 0) + 1;
+        });
+        
+        const totalDepts = Object.values(deptCounts).reduce((a, b) => a + b, 0) || 1;
+        const sortedDepts = Object.entries(deptCounts).sort((a,b) => b[1] - a[1]).slice(0, 2);
+        
+        let label1 = sortedDepts[0] ? sortedDepts[0][0] : 'IT';
+        let val1 = sortedDepts[0] ? Math.round((sortedDepts[0][1] / totalDepts) * 100) : 60;
+        
+        let label2 = sortedDepts[1] ? sortedDepts[1][0] : 'Dizayn';
+        let val2 = sortedDepts[1] ? Math.round((sortedDepts[1][1] / totalDepts) * 100) : 25;
+        
+        let val3 = 100 - val1 - val2;
+        if (val3 < 0) val3 = 0;
+        
+        const doughnut = [val1, val2, val3];
+        const legend = [
+            { label: label1, value: `${val1}%`, color: "#0070f3" },
+            { label: label2, value: `${val2}%`, color: "#ff5a5f" },
+            { label: "Boshqa", value: `${val3}%`, color: "#cbd5e1" }
+        ];
+        
+        // Activity pattern grid cells
+        const activityPattern = [];
+        const today = new Date();
+        for (let i = 83; i >= 0; i--) {
+            const date = new Date(today);
+            date.setDate(today.getDate() - i);
+            const dateStr = date.toISOString().split('T')[0];
+            
+            const reqCount = acceptedRequests.filter(r => new Date(r.created_at).toISOString().split('T')[0] === dateStr).length;
+            const annCount = filteredAnns.filter(a => new Date(a.created_at).toISOString().split('T')[0] === dateStr).length;
+            
+            activityPattern.push(Math.min(reqCount + annCount, 4));
+        }
+        
+        // Calculate consecutive streak
+        let currentStreak = 0;
+        const activeDates = new Set();
+        userRequests.filter(r => r.status === 'accepted').forEach(r => activeDates.add(new Date(r.created_at).toISOString().split('T')[0]));
+        userAnnouncements.forEach(a => activeDates.add(new Date(a.created_at).toISOString().split('T')[0]));
+        
+        let checkDate = new Date(today);
+        while (activeDates.has(checkDate.toISOString().split('T')[0])) {
+            currentStreak++;
+            checkDate.setDate(checkDate.getDate() - 1);
+        }
+        if (currentStreak === 0 && activeDates.size > 0) currentStreak = 1;
+        
+        const progress = Math.min(Math.round((acceptedRequests.length / 10) * 100), 100) || 5;
+        const streakTarget = 7 - (currentStreak % 7);
+
+        return {
+            date: rangeKey === 'hafta' ? 'Oxirgi 7 kun' : (rangeKey === 'oy' ? 'Oxirgi 30 kun' : 'Barcha davrlar'),
+            streakCount: `${currentStreak} kun 🔥`,
+            recordBadge: currentStreak > 15 ? "Yaxshi natija!" : "Streak o'sishda",
+            intro: `Sizda ushbu davrda ${acceptedRequests.length} ta muvaffaqiyatli tushlik uchrashuvi yakunlandi. Keyingi maqsadgacha ${streakTarget} kun qoldi.`,
+            progress,
+            miniStats: [
+                String(acceptedRequests.length), 
+                String(partnerIds.length), 
+                `${rate}%`, 
+                rating, 
+                `${hours}s`, 
+                String(achievements.length)
+            ],
+            activityPattern,
+            lineChart: lineChartData,
+            doughnut,
+            centerText: { total: partnerIds.length || 1, label: "Hamkorlar" },
+            legend,
+            peakHours,
+            timeline: achievements
+        };
+    }
+
     function updateDashboard(rangeKey) {
-        const data = dashboardData[rangeKey];
+        let data = null;
+        if (isDatabaseLoaded) {
+            data = computeDashboardData(rangeKey);
+        } else {
+            // Load fallback static data if database is not loaded yet
+            data = mockDataFallback[rangeKey];
+        }
+
         if (!data) return;
 
         if (dateIndicator) dateIndicator.innerHTML = `<i class="fa-regular fa-calendar"></i> ${data.date}`;
@@ -260,17 +475,80 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTimeline(data.timeline);
     }
 
-    updateDashboard("oy");
+    // Supabase loader function
+    async function loadRealStatistics() {
+        if (!supabaseClient) {
+            console.log("Supabase not configured, using fallback data.");
+            updateDashboard("oy");
+            return;
+        }
 
+        try {
+            const userId = getUserId();
+            
+            // 1. Fetch profile
+            const { data: profile } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            userProfile = profile;
+
+            // 2. Fetch all requests
+            const { data: requests } = await supabaseClient
+                .from('lunch_requests')
+                .select('*')
+                .or(`sender_id.eq.${userId},receiver_id.eq.${userId}`);
+            userRequests = requests || [];
+
+            // 3. Fetch announcements
+            const { data: anns } = await supabaseClient
+                .from('lunch_announcements')
+                .select('*')
+                .eq('user_id', userId);
+            userAnnouncements = anns || [];
+
+            // 4. Fetch profiles of partners
+            const accepted = userRequests.filter(r => r.status === 'accepted');
+            const partnerIds = [...new Set(accepted.map(r => r.sender_id === userId ? r.receiver_id : r.sender_id))];
+            
+            if (partnerIds.length > 0) {
+                const { data: profs } = await supabaseClient
+                    .from('profiles')
+                    .select('*')
+                    .in('id', partnerIds);
+                partnerProfiles = profs || [];
+            }
+
+            isDatabaseLoaded = true;
+            updateDashboard(activeTab);
+
+        } catch (err) {
+            console.error("Error querying Supabase statistics:", err);
+            updateDashboard(activeTab);
+        }
+    }
+
+    // Initialize with real statistics loading
+    loadRealStatistics();
+
+    // Tab buttons event listeners
     document.querySelectorAll(".tab-btn").forEach((button) => {
         button.addEventListener("click", () => {
             document.querySelectorAll(".tab-btn").forEach((item) => item.classList.remove("active"));
             button.classList.add("active");
 
             const key = button.textContent.trim().toLowerCase();
-            if (key === "hafta") updateDashboard("hafta");
-            else if (key === "oy") updateDashboard("oy");
-            else if (key === "hammasi") updateDashboard("hammasi");
+            if (key === "hafta") {
+                activeTab = "hafta";
+                updateDashboard("hafta");
+            } else if (key === "oy") {
+                activeTab = "oy";
+                updateDashboard("oy");
+            } else if (key === "hammasi") {
+                activeTab = "hammasi";
+                updateDashboard("hammasi");
+            }
         });
     });
 });

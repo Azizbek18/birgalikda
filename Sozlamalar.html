@@ -3,11 +3,11 @@
 
 <head>
     <script src="theme-detector.js"></script>
+    <script src="auth-guard.js"></script>
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sozlamalar - Birgalikda</title>
-    <link rel="stylesheet" href="theme.css?v=1.4">
     <link rel="stylesheet" href="Asosiy.css?v=1.4">
     <link rel="stylesheet" href="Sozlamalar.css?v=2.0">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -20,6 +20,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="mobile-300.css?v=1.0">
+    <link rel="stylesheet" href="theme.css?v=2.0">
+    <script src="global.js?v=1.0" defer></script>
 </head>
 
 <body>
@@ -99,8 +101,7 @@
 
     <main class="main-content settings-content">
         <!-- Sarlavha va profil xulosasi -->
-        <header class="settings-header">
-            <div class="header-info">
+        <header class="settings-header"><div class="header-info">
                 <h1>Sozlamalar <span class="header-icon">⚙️</span></h1>
                 <p>Profilingiz va ilova parametrlarini ushbu paneldan boshqaring.</p>
             </div>
@@ -129,7 +130,7 @@
                 <i class="fa-solid fa-shield-halved"></i>
                 <span>Maxfiylik</span>
             </a>
-            <a href="Premuim.html" class="quick-action-chip premium-chip">
+            <a href="premium.html" class="quick-action-chip premium-chip">
                 <i class="fa-solid fa-crown"></i>
                 <span>Premium</span>
             </a>
@@ -201,7 +202,7 @@
                                 <i class="fa-solid fa-shield-halved"></i>
                                 <span>Maxfiylik</span>
                             </a>
-                            <a href="Premuim.html" class="extra-link premium-link">
+                            <a href="premium.html" class="extra-link premium-link">
                                 <i class="fa-solid fa-crown"></i>
                                 <span>Premium</span>
                             </a>

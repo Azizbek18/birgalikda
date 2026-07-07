@@ -24,6 +24,21 @@ const SUPABASE_URL = 'https://doboqtivghcdcoowoxmh.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_VzI36RYaoGx_8MfGne-MhA_KjXo82Lv';
 const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
+// GEO: haversine distance (meters) between two lat/lng points, formatted for display + filtering
+function haversineMeters(lat1, lon1, lat2, lon2) {
+    if (![lat1, lon1, lat2, lon2].every(Number.isFinite)) return null;
+    const R = 6371000;
+    const toRad = deg => deg * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+function formatDistance(meters) {
+    if (meters === null) return "Masofa noma'lum";
+    return meters >= 1000 ? `${(meters / 1000).toFixed(1)}km` : `${Math.round(meters)}m`;
+}
+
 // 1. GLOBAL PUB-SUB EVENT BROKER
 class EventBus {
     constructor() {
@@ -993,8 +1008,8 @@ class BirgalikdaSystemController {
                         bio: ann.description || prof.bio || "Batafsil ma'lumot yo'q.",
                         interests: prof.interests || [],
                         score: matchScore,
-                        distance: ann.location_name,
-                        time: ann.start_time.substring(0, 5) + " da",
+                        distance: formatDistance(haversineMeters(centerLat, centerLng, ann.latitude, ann.longitude)),
+                        time: ann.start_time ? ann.start_time.substring(0, 5) + " da" : "Vaqt noma'lum",
                         topPosition: topPos,
                         leftPosition: leftPos,
                         latitude: ann.latitude,
@@ -1023,9 +1038,9 @@ class BirgalikdaSystemController {
                 const activeInterests = mappedUsers.flatMap(u => u.interests || []);
                 const mappedInterests = [...new Set([...defaultInterests, ...activeInterests])];
                 this.dom.interestsContainer.innerHTML = mappedInterests.map(interest => `
-                    <div class="dropdown-item-checkbox" data-interest="${interest}">
-                        <input type="checkbox" id="chk-${interest}">
-                        <span>${interest}</span>
+                    <div class="dropdown-item-checkbox" data-interest="${escapeHtml(interest)}">
+                        <input type="checkbox" id="chk-${escapeHtml(interest)}">
+                        <span>${escapeHtml(interest)}</span>
                     </div>
                 `).join('');
 
@@ -1064,11 +1079,11 @@ class BirgalikdaSystemController {
                 <div class="user-match-card" data-announcement-id="${user.id}" data-receiver-id="${user.receiverId || ''}">
                     <div class="card-left-section">
                         <div class="avatar-container">
-                            <img src="${user.avatar}" alt="${user.name}" class="user-avatar-img">
+                            <img src="${user.avatar}" alt="${escapeHtml(user.name)}" class="user-avatar-img">
                             <span class="status-indicator"></span>
                         </div>
                         <div class="user-meta-info">
-                            <h4 class="user-full-name">${user.name}</h4>
+                            <h4 class="user-full-name">${escapeHtml(user.name)}</h4>
                             <div class="meta-tags-row">
                                 <span class="meta-tag"><i class="fa-solid fa-location-dot"></i> ${user.distance}</span>
                                 <span class="meta-divider">•</span>
@@ -1100,7 +1115,7 @@ class BirgalikdaSystemController {
                 const userIcon = L.divIcon({
                     className: 'custom-map-marker',
                     html: `
-                        <div class="marker-container" style="position:relative; width:38px; height:38px; background:#ffffff; border-radius:50%; box-shadow:0 8px 20px rgba(15,23,42,0.15); border:2.5px solid var(--primary-color); display:flex; justify-content:center; align-items:center; cursor:pointer;">
+                        <div class="marker-container" style="position:relative; width:38px; height:38px; background:var(--global-card); border-radius:50%; box-shadow:0 8px 20px var(--global-shadow); border:2.5px solid var(--primary-color); display:flex; justify-content:center; align-items:center; cursor:pointer;">
                             <img src="${user.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" />
                             <span style="position:absolute; bottom:-1px; right:-1px; width:9px; height:9px; background-color:#12b76a; border-radius:50%; border:2px solid #ffffff; box-shadow:0 0 0 1px rgba(18, 183, 106, 0.15); z-index:2;"></span>
                             <div style="position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid var(--primary-color);"></div>
@@ -1138,20 +1153,20 @@ class BirgalikdaSystemController {
                 const shared = u.interests.filter(i => myInterests.includes(i));
                 let matchText = "";
                 if (shared.length > 0) {
-                    matchText = `${u.score}% Moslik - Ikkalangiz ham "${shared[0]}" sohasiga qiziqasiz.`;
+                    matchText = `${u.score}% Moslik - Ikkalangiz ham "${escapeHtml(shared[0])}" sohasiga qiziqasiz.`;
                 } else if (u.interests.length > 0) {
-                    matchText = `${u.score}% Moslik - Suhbatdosh "${u.interests[0]}" sohasiga qiziqadi.`;
+                    matchText = `${u.score}% Moslik - Suhbatdosh "${escapeHtml(u.interests[0])}" sohasiga qiziqadi.`;
                 } else {
                     matchText = `${u.score}% Moslik - Ikkalangiz ham yangi networking aloqalariga qiziqasiz.`;
                 }
 
                 this.cacheRegistry.set(cacheKey, `
-                    <img src="${u.avatar}" alt="${u.name}" class="modal-avatar-large">
-                    <h3 class="modal-user-name" style="font-size:22px; font-weight:700;">${u.name}</h3>
-                    <p style="color:var(--primary-color); font-weight:600; font-size:14px; margin-top:2px;">${u.profession}</p>
-                    <p style="margin:18px 0; font-size:14.5px; color:var(--text-muted); line-height:1.6;">${u.bio}</p>
+                    <img src="${u.avatar}" alt="${escapeHtml(u.name)}" class="modal-avatar-large">
+                    <h3 class="modal-user-name" style="font-size:22px; font-weight:700;">${escapeHtml(u.name)}</h3>
+                    <p style="color:var(--primary-color); font-weight:600; font-size:14px; margin-top:2px;">${escapeHtml(u.profession)}</p>
+                    <p style="margin:18px 0; font-size:14.5px; color:var(--text-muted); line-height:1.6;">${escapeHtml(u.bio)}</p>
                     <div class="modal-interests-tags">
-                        ${u.interests.map(t => `<span class="interest-tag"># ${t}</span>`).join('')}
+                        ${u.interests.map(t => `<span class="interest-tag"># ${escapeHtml(t)}</span>`).join('')}
                     </div>
                     <div style="background: rgba(0,90,135,0.04); padding:14px; border-radius:12px; font-size:13.5px; font-weight:600; color:var(--primary-color); text-align:left; border-left:4px solid var(--primary-color);">
                         <i class="fa-solid fa-wand-magic-sparkles" style="color:#f59e0b; margin-right:4px;"></i> 

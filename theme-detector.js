@@ -1,11 +1,31 @@
-(function() {
-    try {
-        const settings = JSON.parse(localStorage.getItem('Birgalikda_settings')) || {};
-        const theme = settings.theme || 'light';
-        if (theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark-theme');
+(function () {
+    const STORAGE_KEY = 'Birgalikda_settings';
+
+    function readSettings() {
+        try {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch (e) {
+            return {};
         }
+    }
+
+    function resolveTheme(theme) {
+        if (theme === 'auto') {
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return theme === 'dark' ? 'dark' : 'light';
+    }
+
+    try {
+        const settings = readSettings();
+        const storedTheme = localStorage.getItem('theme');
+        const theme = settings.theme || storedTheme || 'light';
+        const resolvedTheme = resolveTheme(theme);
+
+        document.documentElement.dataset.theme = resolvedTheme;
+        document.documentElement.dataset.themePreference = theme;
+        document.documentElement.classList.toggle('dark-theme', resolvedTheme === 'dark');
     } catch (e) {
-        console.error("Theme detector error:", e);
+        document.documentElement.dataset.theme = 'light';
     }
 })();

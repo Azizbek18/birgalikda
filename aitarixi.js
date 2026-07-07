@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             cards.forEach(card => {
                 const status = card.getAttribute('data-status');
-                const isSaved = card.querySelector('.btn-save').classList.contains('saved');
+                const saveBtn = card.querySelector('.btn-save');
+                const isSaved = saveBtn ? saveBtn.classList.contains('saved') : false;
 
                 if (filterValue === 'barchasi') {
                     card.style.display = 'block';

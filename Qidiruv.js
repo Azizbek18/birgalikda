@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // ---- Helper: check time filter on an announcement ----
         function passesTimeFilter(ann) {
             if (!timeStartDate || !timeEndDate) return true;
-            const annDate = ann.date || todayStr;
+            const annDate = ann.lunch_date || todayStr;
             return annDate >= timeStartDate && annDate <= timeEndDate;
         }
 
@@ -391,15 +391,49 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.innerHTML = profiles.map(prof => {
             const ann = prof.active_announcement || {};
             const isSent = allData.sentAnnIds.includes(ann.id);
-            const myInterests = JSON.parse(localStorage.getItem(`Birgalikda_fields_${getUserId()}`) || '[]');
+            let myInterests = [];
+            try {
+                myInterests = JSON.parse(localStorage.getItem(`Birgalikda_fields_${getUserId()}`) || '[]');
+            } catch (e) { myInterests = []; }
             const sharedCount = (prof.interests || []).filter(i => myInterests.includes(i)).length;
             const matchScore = Math.min(65 + (sharedCount * 10), 99);
+
+            // Generate initials or icon placeholder if avatar is missing/default
+            let avatarHtml = '';
+            const name = prof.full_name || 'Noma\'lum';
+            const isDefaultAvatar = !prof.avatar_url || 
+                                    prof.avatar_url.includes('photo-1535713875002-d1d0cf377fde') || 
+                                    prof.avatar_url.includes('placeholder') || 
+                                    prof.avatar_url === '';
+            
+            if (isDefaultAvatar) {
+                const colors = [
+                    'linear-gradient(135deg, #0ea5e9, #0284c7)',
+                    'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    'linear-gradient(135deg, #ec4899, #db2777)',
+                    'linear-gradient(135deg, #10b981, #059669)',
+                    'linear-gradient(135deg, #f59e0b, #d97706)',
+                    'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                ];
+                const colorIdx = name.length % colors.length;
+                const gradient = colors[colorIdx];
+                const names = name.trim().split(/\s+/);
+                const initials = names.map(n => n.charAt(0)).slice(0, 2).join('').toUpperCase();
+                
+                avatarHtml = `
+                    <div class="user-avatar-placeholder" style="background: ${gradient}; width: 3.5rem; height: 3.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); text-transform: uppercase; border: 2px solid var(--border-light);">
+                        ${initials || '<i class="fa-solid fa-user"></i>'}
+                    </div>
+                `;
+            } else {
+                avatarHtml = `<img src="${prof.avatar_url}" alt="${name}" loading="lazy" style="width: 3.5rem; height: 3.5rem; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-light);">`;
+            }
 
             return `
             <div class="person-card" data-dept="it" data-rating="${prof.points || 0}" data-announcement-id="${ann.id}" data-receiver-id="${prof.id}">
                 <div class="card-body">
                     <div class="avatar-box">
-                        <img src="${prof.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120'}" alt="${prof.full_name}" loading="lazy">
+                        ${avatarHtml}
                         <span class="online-dot" title="Onlayn"></span>
                     </div>
                     <div class="person-info">

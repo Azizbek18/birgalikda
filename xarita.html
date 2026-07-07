@@ -2,8 +2,7 @@
 <html lang="uz">
 
 <head>
-    <script src="theme-detector.js"></script>
-    <link rel="stylesheet" href="theme.css?v=2.0">
+    <script src="theme-detector.js?v=2.0"></script>
     <script src="auth-guard.js"></script>
 
     <meta charset="UTF-8">
@@ -20,6 +19,8 @@
     <link rel="stylesheet" href="xarita.css?v=1.9">
     <link rel="stylesheet" href="responsive.css?v=1.9">
     <link rel="stylesheet" href="mobile-300.css?v=1.0">
+    <link rel="stylesheet" href="theme.css?v=2.0">
+    <script src="global.js?v=1.0" defer></script>
 </head>
 
 <body class="enterprise-app-mode">
@@ -28,8 +29,7 @@
 
     <div class="app-container">
 
-        <header class="main-header">
-            <div class="header-left">
+        <header class="main-header"><div class="header-left">
                     <div style="display:flex; align-items:center; gap:8px; font-family:'Poppins', sans-serif;">
                         <span style="font-size:22px;">🍽️</span>
                         <span style="font-size:18px; font-weight:800; background:linear-gradient(135deg, #0077b6, #005A87); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-0.4px;">Birgalikda</span>
@@ -74,7 +74,7 @@
                     </button>
                     <div class="app-dropdown-panel hidden" id="interestsDropdownPanel" style="padding: 12px; min-width: 260px; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);">
                         <div class="dropdown-header" style="margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
-                            <h5 style="margin: 0; font-size: 13.5px; font-weight: 700; color: #1e293b;">Filtr: Qiziqishlar</h5>
+                            <h5 style="margin: 0; font-size: 13.5px; font-weight: 700; color: var(--global-text);">Filtr: Qiziqishlar</h5>
                         </div>
                         <div class="dropdown-body-scroll custom-scrollbar" id="interestsFilterList" style="max-height: 200px; overflow-y: auto; padding: 4px 0;">
                         </div>
@@ -92,7 +92,7 @@
                     </button>
                     <div class="app-dropdown-panel hidden" id="timeDropdownPanel" style="padding: 12px; min-width: 240px; border-radius: 16px; border: 1px solid rgba(226, 232, 240, 0.8); box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);">
                         <div class="dropdown-header" style="margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
-                            <h5 style="margin: 0; font-size: 13.5px; font-weight: 700; color: #1e293b;">Filtr: Tushlik vaqti</h5>
+                            <h5 style="margin: 0; font-size: 13.5px; font-weight: 700; color: var(--global-text);">Filtr: Tushlik vaqti</h5>
                         </div>
                         <div class="dropdown-body" style="padding: 4px 0;">
                             <div class="time-slot-grid" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;">

@@ -152,6 +152,8 @@ textarea,
 
     .right-panel {
         width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
         height: auto !important;
         display: grid !important;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
@@ -186,6 +188,9 @@ textarea,
         padding-bottom: 100px !important;
         display: flex !important;
         flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
     }
 
     .match-banner,

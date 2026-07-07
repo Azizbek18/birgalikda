@@ -108,12 +108,12 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.innerHTML = `
             <div class="custom-confirm-content" style="font-family: sans-serif;">
                 <div style="font-size: 44px; margin-bottom: 14px; display:inline-block; animation: float-rocket 2s ease-in-out infinite;">📍</div>
-                <h3 style="margin: 0 0 8px 0; color: #0f172a; font-size: 20px; font-weight:800; letter-spacing: -0.5px;">E'lon qo'shilsinmi?</h3>
-                <p style="margin: 0 0 28px 0; color: #64748b; font-size: 14px; line-height: 1.6;">
+                <h3 style="margin: 0 0 8px 0; color: var(--global-text); font-size: 20px; font-weight:800; letter-spacing: -0.5px;">E'lon qo'shilsinmi?</h3>
+                <p style="margin: 0 0 28px 0; color: var(--global-muted); font-size: 14px; line-height: 1.6;">
                     Rostdan ham <b style="color: #0077b6;">"${locationName}"</b> joyiga tushlik e'lonini joylashtirmoqchimisiz?
                 </p>
                 <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button id="modal-cancel" class="animate-btn" style="flex:1; background: #f1f5f9; color: #64748b; border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 13.5px; letter-spacing: -0.01em;">Yo'q, bekor qilish</button>
+                    <button id="modal-cancel" class="animate-btn" style="flex:1; background: var(--global-nav-hover); color: var(--global-muted); border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 13.5px; letter-spacing: -0.01em;">Yo'q, bekor qilish</button>
                     <button id="modal-confirm" class="animate-btn" style="flex:1; background: linear-gradient(135deg, #0077b6 0%, #005A87 100%); color: white; border: none; padding: 14px; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 13.5px; box-shadow: 0 6px 18px rgba(0, 90, 135, 0.2); letter-spacing: -0.01em;">Ha, joylashtirilsin</button>
                 </div>
             </div>`;
@@ -147,11 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                     currentMarker = L.marker([lat, lon], { icon: searchIcon }).addTo(map)
                         .bindPopup(`<b style="font-family:sans-serif; font-size:12px;">📍 ${cleanName}</b>`).openPopup();
-                    showConfirmationCard(cleanName, () => { 
-                        window.location.href = `tushlik.html?location=${encodeURIComponent(cleanName)}&lat=${lat}&lon=${lon}`; 
+                    showConfirmationCard(cleanName, () => {
+                        window.location.href = `tushlik.html?location=${encodeURIComponent(cleanName)}&lat=${lat}&lon=${lon}`;
                     });
                 }
-            });
+            })
+            .catch(err => console.error("Geocoding search error:", err));
     }
 
     function executeSearchInput() {
@@ -172,12 +173,12 @@ document.addEventListener("DOMContentLoaded", () => {
         inputModal.className = "custom-confirm-modal";
         inputModal.innerHTML = `
             <div class="custom-confirm-content" style="font-family: sans-serif; text-align: left;">
-                <h3 style="margin: 0 0 6px 0; color: #0f172a; font-size: 20px; font-weight:800; text-align: center; letter-spacing: -0.5px;">🚀 Tushlik e'lonini qo'shish</h3>
-                <p style="margin: 0 0 22px 0; color: #64748b; font-size: 13.5px; text-align: center; line-height: 1.5;">Tushlik qilmoqchi bo'lgan joyingiz yoki kafengiz nomini kiriting.</p>
+                <h3 style="margin: 0 0 6px 0; color: var(--global-text); font-size: 20px; font-weight:800; text-align: center; letter-spacing: -0.5px;">🚀 Tushlik e'lonini qo'shish</h3>
+                <p style="margin: 0 0 22px 0; color: var(--global-muted); font-size: 13.5px; text-align: center; line-height: 1.5;">Tushlik qilmoqchi bo'lgan joyingiz yoki kafengiz nomini kiriting.</p>
                 <input id="custom-modal-input" type="text" placeholder="Masalan: Evos, Chilonzor yoki O'zMU..."
-                    style="width: 100%; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 14px; font-size: 14.5px; margin-bottom: 26px; outline: none; box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #f8fafc; color: #0f172a; font-weight: 500;">
+                    style="width: 100%; padding: 14px 16px; border: 1.5px solid var(--global-border); border-radius: 14px; font-size: 14.5px; margin-bottom: 26px; outline: none; box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: var(--global-input); color: var(--global-text); font-weight: 500;">
                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
-                    <button id="modal-input-cancel" class="animate-btn" style="background: #f1f5f9; color: #64748b; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13.5px;">Yopish</button>
+                    <button id="modal-input-cancel" class="animate-btn" style="background: var(--global-nav-hover); color: var(--global-muted); border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13.5px;">Yopish</button>
                     <button id="modal-input-submit" class="animate-btn" style="background: linear-gradient(135deg, #0077b6 0%, #005A87 100%); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 13.5px; box-shadow: 0 6px 18px rgba(0, 90, 135, 0.2);">Joyni qidirish</button>
                 </div>
             </div>`;
@@ -187,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const mInput = document.getElementById("custom-modal-input");
             if (mInput) {
                 mInput.focus();
-                mInput.addEventListener("focus", () => { mInput.style.borderColor = "#0077b6"; mInput.style.boxShadow = "0 0 0 4px rgba(0, 119, 182, 0.08)"; mInput.style.background = "#ffffff"; });
+                mInput.addEventListener("focus", () => { mInput.style.borderColor = "#0077b6"; mInput.style.boxShadow = "0 0 0 4px rgba(0, 119, 182, 0.08)"; mInput.style.background = "var(--global-card)"; });
                 mInput.addEventListener("blur", () => { mInput.style.boxShadow = "none"; mInput.style.borderColor = "#e2e8f0"; mInput.style.background = "#f8fafc"; });
             }
         }, 10);
@@ -296,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const { data: profile, error } = await window.supabaseClient
                     .from('profiles').select('*').eq('id', userId).single();
                 if (profile && !error) {
-                    if (greetingNameEl) greetingNameEl.innerHTML = profile.full_name || localStorage.getItem("user_name") || "Foydalanuvchi";
+                    if (greetingNameEl) greetingNameEl.innerHTML = escapeHtml(profile.full_name || localStorage.getItem("user_name") || "Foydalanuvchi");
                     const streakEl = document.querySelector(".streak");
                     if (streakEl) streakEl.textContent = `${profile.streak || 0} kun`;
                 }
@@ -382,7 +383,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 if (validRequest && activeMatchCard) {
                     const req = validRequest;
-                    const partner = req.sender.id === userId ? req.receiver : req.sender;
+                    const partner = (req.sender_id === userId ? req.receiver : req.sender) || req.receiver || req.sender || {};
                     const ann = req.lunch_announcements || {};
                     const localDate = new Date(ann.created_at || req.created_at);
                     const yyyy = localDate.getFullYear();
@@ -394,9 +395,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="match-left">
                             <div class="match-avatars"><img src="${partner.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'}" alt="Avatar"></div>
                             <div class="match-details">
-                                <h4>${ann.location_name || 'Tushlik joyi'} (${partner.full_name})</h4>
-                                <div class="tags">${(partner.interests || []).slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-                                <p class="distance">📍 ${ann.title || 'Tushlik uchrashuvi'}</p>
+                                <h4>${escapeHtml(ann.location_name || 'Tushlik joyi')} (${escapeHtml(partner.full_name)})</h4>
+                                <div class="tags">${(partner.interests || []).slice(0, 3).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div>
+                                <p class="distance">📍 ${escapeHtml(ann.title || 'Tushlik uchrashuvi')}</p>
                             </div>
                         </div>
                         <div class="match-right">
@@ -487,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <div class="avatar-status"></div>
                                 </div>
                                 <div class="user-meta">
-                                    <span class="card-title">${isOwn ? 'Siz' : (prof.full_name || 'Noma\'lum')}</span>
+                                    <span class="card-title">${isOwn ? 'Siz' : escapeHtml(prof.full_name || 'Noma\'lum')}</span>
                                     <div class="rating">
                                         <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                             <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
@@ -507,14 +508,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
 
                         <div class="card-info">
-                            <h3 class="info-title">${ann.title || 'Tushlik uchrashuvi'}</h3>
+                            <h3 class="info-title">${escapeHtml(ann.title || 'Tushlik uchrashuvi')}</h3>
                             <div class="info-details-row">
                                 <div class="info-item location-item">
                                     <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                     </svg>
-                                    <span class="truncate-text">${ann.location_name || 'IT Park - Blok A'}</span>
+                                    <span class="truncate-text">${escapeHtml(ann.location_name || 'IT Park - Blok A')}</span>
                                 </div>
                                 <div class="info-item time-item">
                                     <svg class="time-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -523,7 +524,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <span>${ann.start_time ? ann.start_time.substring(0, 5) : '13:00'} - ${ann.end_time ? ann.end_time.substring(0, 5) : '14:30'}</span>
                                 </div>
                             </div>
-                            ${hasCustomDesc ? `<p class="card-desc">${ann.description}</p>` : ''}
+                            ${hasCustomDesc ? `<p class="card-desc">${escapeHtml(ann.description)}</p>` : ''}
                         </div>
 
                         <div class="card-footer">
@@ -566,7 +567,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         ownerProfs = profData || [];
                     }
 
-                    const sentRequestsData = sentReqs.map(req => {
+                    const sentRequestsData = cachedSentReqs.map(req => {
                         const ann = req.lunch_announcements || {};
                         const profile = ownerProfs.find(p => p.id === ann.user_id) || {};
                         return { ...ann, profiles: profile, request_id: req.id };
@@ -591,7 +592,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <div class="avatar-status"></div>
                                     </div>
                                     <div class="user-meta">
-                                        <span class="card-title">${prof.full_name || 'Noma\'lum'}</span>
+                                        <span class="card-title">${escapeHtml(prof.full_name || 'Noma\'lum')}</span>
                                         <div class="rating">
                                             <svg class="star-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
@@ -603,14 +604,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
 
                             <div class="card-info">
-                                <h3 class="info-title">${ann.title || 'Tushlik uchrashuvi'}</h3>
+                                <h3 class="info-title">${escapeHtml(ann.title || 'Tushlik uchrashuvi')}</h3>
                                 <div class="info-details-row">
                                     <div class="info-item location-item">
                                         <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                         </svg>
-                                        <span class="truncate-text">${ann.location_name || 'IT Park - Blok A'}</span>
+                                        <span class="truncate-text">${escapeHtml(ann.location_name || 'IT Park - Blok A')}</span>
                                     </div>
                                     <div class="info-item time-item">
                                         <svg class="time-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -619,7 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <span>${ann.start_time ? ann.start_time.substring(0, 5) : '13:00'} - ${ann.end_time ? ann.end_time.substring(0, 5) : '14:30'}</span>
                                     </div>
                                 </div>
-                                ${hasCustomDesc ? `<p class="card-desc">${ann.description}</p>` : ''}
+                                ${hasCustomDesc ? `<p class="card-desc">${escapeHtml(ann.description)}</p>` : ''}
                             </div>
 
                             <div class="card-footer">
@@ -650,7 +651,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <li>
                         <span class="rank" style="background: ${index === 0 ? 'linear-gradient(135deg,#f59e0b,#d97706)' : index === 1 ? 'linear-gradient(135deg,#94a3b8,#64748b)' : 'linear-gradient(135deg,#cd7c5e,#a0522d)'}; color:#fff; font-weight:800; font-size:11px;">${medals[index] || (index + 1)}</span>
                         <div class="leader-avatar" style="width:34px; height:34px; flex-shrink:0;"><img src="${leader.avatar_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80'}" alt="" style="width:100%; height:100%; border-radius:50%; object-fit:cover;"></div>
-                        <span class="leader-name-text">${leader.full_name || 'Noma\'lum'}</span>
+                        <span class="leader-name-text">${escapeHtml(leader.full_name || 'Noma\'lum')}</span>
                         <span class="leader-score">${leader.points || 0}</span>
                     </li>`;
                 }).join('');
@@ -663,7 +664,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const { count, error } = await window.supabaseClient
                 .from('profiles').select('*', { count: 'exact', head: true });
             const countEl = document.getElementById("active-users-count");
-            if (countEl && count !== null && !error) countEl.textContent = Math.max(5, count);
+            const heroCountEl = document.getElementById("active-users-count-hero");
+            if (count !== null && !error) {
+                const activeCount = Math.max(5, count);
+                if (countEl) countEl.textContent = activeCount;
+                if (heroCountEl) heroCountEl.textContent = activeCount + "+";
+            }
         } catch (err) {}
     }
 
@@ -675,12 +681,12 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.id = 'custom-confirm-modal';
             modal.style.cssText = `position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(15,23,42,0.4); backdrop-filter:blur(12px); display:flex; justify-content:center; align-items:center; z-index:10000; opacity:0; pointer-events:none; transition:opacity 0.3s ease;`;
             modal.innerHTML = `
-                <div class="custom-confirm-content" style="background:#fff; border-radius:22px; padding:32px; width:380px; box-shadow:0 25px 60px -12px rgba(15,23,42,0.2), 0 0 0 1px rgba(15,23,42,0.03); text-align:center; transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);">
+                <div class="custom-confirm-content" style="background:var(--global-card); border-radius:22px; padding:32px; width:380px; box-shadow:0 25px 60px -12px rgba(15,23,42,0.2), 0 0 0 1px rgba(15,23,42,0.03); text-align:center; transform:scale(0.9); transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);">
                     <div style="width:56px; height:56px; border-radius:16px; background:rgba(239,68,68,0.08); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:24px;">🗑️</div>
-                    <h3 style="margin:0 0 10px; font-family:'Poppins',sans-serif; color:#0f172a; font-size:18px; font-weight:800; letter-spacing:-0.3px;">E'lonni o'chirish</h3>
-                    <p id="custom-confirm-text" style="margin:0 0 26px; font-family:'Inter',sans-serif; color:#64748b; font-size:14px; line-height:1.6;"></p>
+                    <h3 style="margin:0 0 10px; font-family:'Poppins',sans-serif; color:var(--global-text); font-size:18px; font-weight:800; letter-spacing:-0.3px;">E'lonni o'chirish</h3>
+                    <p id="custom-confirm-text" style="margin:0 0 26px; font-family:'Inter',sans-serif; color:var(--global-muted); font-size:14px; line-height:1.6;"></p>
                     <div style="display:flex; gap:12px; justify-content:center;">
-                        <button id="custom-confirm-cancel" style="background:#f1f5f9; color:#64748b; border:none; padding:12px 24px; border-radius:14px; font-weight:700; cursor:pointer; font-size:13.5px; transition:all 0.2s; letter-spacing:-0.01em;">Yo'q, qolsin</button>
+                        <button id="custom-confirm-cancel" style="background:var(--global-nav-hover); color:var(--global-muted); border:none; padding:12px 24px; border-radius:14px; font-weight:700; cursor:pointer; font-size:13.5px; transition:all 0.2s; letter-spacing:-0.01em;">Yo'q, qolsin</button>
                         <button id="custom-confirm-ok" style="background:linear-gradient(135deg,#ef4444 0%,#dc2626 100%); color:#fff; border:none; padding:12px 24px; border-radius:14px; font-weight:700; cursor:pointer; font-size:13.5px; box-shadow:0 4px 14px rgba(239,68,68,0.2); transition:all 0.2s; letter-spacing:-0.01em;">Ha, o'chirilsin</button>
                     </div>
                 </div>`;
